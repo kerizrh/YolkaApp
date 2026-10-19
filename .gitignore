@@ -4,6 +4,10 @@
 local.properties
 google-services.json
 *firebase*.json
+client_secret*.json
+*googleusercontent.com.json
+*oauth*.json
+*credentials*.json
 *.jks
 *.keystore
 *.pem
