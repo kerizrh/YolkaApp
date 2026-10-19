@@ -1,0 +1,33 @@
+# Secretos, credenciales y llaves de firma (NUNCA SUBIR)
+*.env
+.env.*
+local.properties
+google-services.json
+*firebase*.json
+*.jks
+*.keystore
+*.pem
+*.key
+secrets.xml
+ secrets.properties
+
+# Android / Gradle
+*.iml
+.gradle/
+/local.properties
+/.idea/
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+app/build/
+build/
+
+# Sistema Operativo y Editores
+.vscode/
+Thumbs.db
+*.apk
+*.aab
+*.ap_
+*.dex
