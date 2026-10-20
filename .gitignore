@@ -1,6 +1,7 @@
 # Secretos, credenciales y llaves de firma (NUNCA SUBIR)
 *.env
 .env.*
+!.env.template
 local.properties
 google-services.json
 *firebase*.json
