@@ -62,12 +62,15 @@
             android:layout_marginTop="8dp"
             android:background="@color/yolka_primary_deep" />
 
-        <!-- Subir foto de tu mascota (Captura 4 de ) -->
+        <!-- Subir foto de tu mascota -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardPetPhotoPicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
             app:cardBackgroundColor="@color/yolka_surface"
             app:cardCornerRadius="20dp"
             app:cardElevation="1dp"
@@ -79,46 +82,64 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="18dp">
+                android:padding="20dp">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="86dp"
-                    android:layout_height="86dp"
-                    app:cardBackgroundColor="@color/yolka_surface_variant"
-                    app:cardCornerRadius="43dp"
-                    app:cardElevation="0dp">
+                <FrameLayout
+                    android:layout_width="92dp"
+                    android:layout_height="92dp">
 
-                    <ImageView
-                        android:id="@+id/ivPetFormPreview"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:contentDescription="Foto mascota"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_yolka_paw" />
-                </com.google.android.material.card.MaterialCardView>
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="86dp"
+                        android:layout_height="86dp"
+                        android:layout_gravity="center"
+                        app:cardBackgroundColor="@color/yolka_surface_variant"
+                        app:cardCornerRadius="43dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="@color/yolka_card_stroke"
+                        app:strokeWidth="1.5dp">
+
+                        <ImageView
+                            android:id="@+id/ivPetFormPreview"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:contentDescription="Foto mascota"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_yolka_paw" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <FrameLayout
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_gravity="bottom|end"
+                        android:background="@drawable/bg_yolka_logo_badge">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center"
+                            android:contentDescription="Agregar foto"
+                            android:src="@drawable/ic_add"
+                            app:tint="#FFFFFF" />
+                    </FrameLayout>
+                </FrameLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Subir foto de tu mascota"
+                    android:text="Toca para seleccionar foto"
                     android:textColor="@color/yolka_primary_deep"
-                    android:textSize="13sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/etPetPhotoUrl"
-                    android:layout_width="match_parent"
-                    android:layout_height="42dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/bg_pill_input"
-                    android:hint="URL de foto o selecciona de galería (JPG/PNG)"
-                    android:inputType="textUri"
-                    android:paddingStart="14dp"
-                    android:paddingEnd="14dp"
-                    android:textColor="@color/yolka_text_primary"
-                    android:textColorHint="@color/yolka_text_muted"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Elige una foto desde la galería de tu dispositivo"
+                    android:textColor="@color/yolka_text_secondary"
                     android:textSize="12sp" />
+
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

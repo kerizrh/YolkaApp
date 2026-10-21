@@ -42,12 +42,13 @@ public class PetFormActivity extends AppCompatActivity {
     private String selectedGender = "MALE";
     private String selectedSize = "SMALL";
     private String selectedBirthDate = "2024-03-15";
+    private String selectedPhotoUriOrUrl = "";
 
     private final ActivityResultLauncher<String> imagePickerLauncher = registerForActivityResult(
             new ActivityResultContracts.GetContent(),
             (Uri uri) -> {
                 if (uri != null) {
-                    binding.etPetPhotoUrl.setText(uri.toString());
+                    selectedPhotoUriOrUrl = uri.toString();
                     Glide.with(this)
                             .load(uri)
                             .circleCrop()
@@ -79,7 +80,9 @@ public class PetFormActivity extends AppCompatActivity {
 
     private void setupInteractions() {
         binding.btnBackPetForm.setOnClickListener(v -> finish());
-        binding.cardPetPhotoPicker.setOnClickListener(v -> imagePickerLauncher.launch("image/*"));
+        View.OnClickListener photoPickerListener = v -> imagePickerLauncher.launch("image/*");
+        binding.cardPetPhotoPicker.setOnClickListener(photoPickerListener);
+        binding.ivPetFormPreview.setOnClickListener(photoPickerListener);
 
         binding.cardSpeciesDog.setOnClickListener(v -> updateSpeciesSelection("DOG"));
         binding.cardSpeciesCat.setOnClickListener(v -> updateSpeciesSelection("CAT"));
@@ -111,7 +114,7 @@ public class PetFormActivity extends AppCompatActivity {
         binding.etPetWeight.setText(String.format(Locale.US, "%.1f", pet.getWeight()));
 
         if (pet.getPhotoUrl() != null && !pet.getPhotoUrl().isBlank()) {
-            binding.etPetPhotoUrl.setText(pet.getPhotoUrl());
+            selectedPhotoUriOrUrl = pet.getPhotoUrl();
             Glide.with(this)
                     .load(pet.getPhotoUrl())
                     .placeholder(R.drawable.ic_yolka_paw)
@@ -226,7 +229,7 @@ public class PetFormActivity extends AppCompatActivity {
         req.ageYears = ageYears;
         req.weight = weight;
         req.size = selectedSize;
-        req.photoUrl = binding.etPetPhotoUrl.getText().toString().trim();
+        req.photoUrl = selectedPhotoUriOrUrl != null ? selectedPhotoUriOrUrl.trim() : "";
 
         binding.btnSavePet.setEnabled(false);
 
