@@ -19,9 +19,11 @@ import com.yolka.app.databinding.ActivityMainBinding;
 import com.yolka.app.models.Pet;
 import com.yolka.app.models.User;
 import com.yolka.app.ui.auth.LoginActivity;
+import com.yolka.app.ui.map.VetMapFragment;
 import com.yolka.app.ui.pets.PetDetailActivity;
 import com.yolka.app.ui.pets.PetsListFragment;
 import com.yolka.app.ui.routines.RoutinesFragment;
+import com.yolka.app.ui.tips.TipsFragment;
 import com.yolka.app.utils.NetworkMonitor;
 import com.yolka.app.utils.Store;
 import com.yolka.app.utils.SyncQueueManager;
@@ -120,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                 loadFragment(new RoutinesFragment(), "Rutinas y Hábitos");
                 return true;
             } else if (id == R.id.nav_vets_map) {
-                loadFragment(new PetsListFragment(), "Veterinarias");
+                loadFragment(new VetMapFragment(), "Veterinarias Cercanas");
                 return true;
             }
             return false;
@@ -178,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openTipsSection() {
-        loadFragment(new DashboardFragment(), "Consejos y Guías");
+        loadFragment(new TipsFragment(), "Consejos y Guías");
     }
 
     public void loadFragment(Fragment fragment, String subtitle) {
