@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupTopBarAndDrawer() {
         binding.ivTopBarMenuLogo.setOnClickListener(v ->
-                binding.drawerLayout.openDrawer(GravityCompat.START)
+                binding.drawerLayout.openDrawer(GravityCompat.END)
         );
 
         View headerView = binding.navigationView.getHeaderView(0);
@@ -73,11 +74,20 @@ public class MainActivity extends AppCompatActivity {
                 headerBinding.tvDrawerUserName.setText(user.getFullName() != null ? user.getFullName() : user.getFirstName());
                 headerBinding.tvDrawerUserEmail.setText(user.getEmail() != null ? user.getEmail() : "");
                 String first = user.getFirstName();
-                binding.tvTopUserInitials.setText(first != null && !first.isEmpty()
+                String initials = first != null && !first.isEmpty()
                         ? first.substring(0, 1).toUpperCase()
-                        : "U");
+                        : "U";
+                binding.tvTopUserInitials.setText(initials);
+                headerBinding.tvDrawerUserInitials.setText(initials);
             }
         });
+
+        View.OnClickListener openProfileListener = v -> {
+            binding.drawerLayout.closeDrawer(GravityCompat.END);
+            startActivity(new Intent(MainActivity.this, ProfileSettingsActivity.class));
+        };
+        headerBinding.cardDrawerProfile.setOnClickListener(openProfileListener);
+        headerBinding.btnDrawerOpenProfile.setOnClickListener(openProfileListener);
 
         headerBinding.switchDrawerDarkMode.setChecked(ThemeManager.getInstance().isDarkMode());
         headerBinding.switchDrawerDarkMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -86,8 +96,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Al presionar el avatar superior derecho se despliega el sidebar lateral derecho
         binding.cardTopUserAvatar.setOnClickListener(v ->
-                startActivity(new Intent(MainActivity.this, ProfileSettingsActivity.class))
+                binding.drawerLayout.openDrawer(GravityCompat.END)
         );
 
         binding.btnTopNotifications.setOnClickListener(v ->
@@ -95,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         );
 
         binding.navigationView.setNavigationItemSelectedListener(item -> {
-            binding.drawerLayout.closeDrawer(GravityCompat.START);
+            binding.drawerLayout.closeDrawer(GravityCompat.END);
             int id = item.getItemId();
             if (id == R.id.drawer_dashboard) {
                 binding.bottomNav.setSelectedItemId(R.id.nav_dashboard);
@@ -124,6 +135,18 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
             return true;
+        });
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (binding.drawerLayout.isDrawerOpen(GravityCompat.END)) {
+                    binding.drawerLayout.closeDrawer(GravityCompat.END);
+                } else {
+                    setEnabled(false);
+                    getOnBackPressedDispatcher().onBackPressed();
+                }
+            }
         });
     }
 

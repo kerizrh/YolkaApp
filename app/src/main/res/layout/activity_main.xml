@@ -121,12 +121,12 @@
 
     </LinearLayout>
 
-    <!-- Sidebar / Drawer Lateral ( Sidebar) -->
+    <!-- Sidebar / Drawer Lateral Derecho -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
-        android:layout_width="290dp"
+        android:layout_width="300dp"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
+        android:layout_gravity="end"
         android:background="@color/yolka_surface"
         app:headerLayout="@layout/nav_header_main"
         app:itemIconTint="@color/yolka_primary_deep"
