@@ -21,4 +21,6 @@
     <string name="nav_vets">Vets</string>
     <string name="offline_banner">Offline mode • Changes will sync when back online</string>
     <string name="sync_completed">Pending changes synced with Yolka Cloud</string>
+    <string name="notification_channel_name">Yolka Reminders</string>
+    <string name="notification_channel_desc">Notifications for vaccines, vet appointments, deworming and pet routines</string>
 </resources>

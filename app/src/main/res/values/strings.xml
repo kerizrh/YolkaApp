@@ -21,4 +21,6 @@
     <string name="nav_vets">Veterinarias</string>
     <string name="offline_banner">Modo sin conexión • Los cambios se sincronizarán al reconectar</string>
     <string name="sync_completed">Cambios pendientes sincronizados con Yolka Cloud</string>
+    <string name="notification_channel_name">Recordatorios Yolka</string>
+    <string name="notification_channel_desc">Notificaciones de vacunas, citas médicas, desparasitación y rutinas de mascotas</string>
 </resources>
