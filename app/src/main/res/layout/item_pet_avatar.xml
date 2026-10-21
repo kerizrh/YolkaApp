@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="14dp"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="4dp">
+
+    <FrameLayout
+        android:layout_width="66dp"
+        android:layout_height="66dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardPetAvatarCircle"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
+            android:layout_gravity="center"
+            app:cardBackgroundColor="@color/yolka_surface_variant"
+            app:cardCornerRadius="31dp"
+            app:cardElevation="1dp"
+            app:strokeColor="@color/yolka_primary_deep"
+            app:strokeWidth="2dp">
+
+            <ImageView
+                android:id="@+id/ivPetAvatarPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="Mascota"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_yolka_paw" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/tvPetSelectedBadge"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="bottom|end"
+            android:background="@drawable/bg_yolka_logo_badge"
+            android:gravity="center"
+            android:text="✓"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvPetAvatarName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:maxWidth="72dp"
+        android:text="Rocky"
+        android:textColor="@color/yolka_text_primary"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvPetAvatarBreed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:maxWidth="72dp"
+        android:text="Golden"
+        android:textColor="@color/yolka_text_secondary"
+        android:textSize="10sp" />
+
+</LinearLayout>
