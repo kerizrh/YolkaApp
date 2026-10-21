@@ -90,9 +90,13 @@ public class PetAvatarAdapter extends RecyclerView.Adapter<PetAvatarAdapter.PetA
                 binding.ivPetAvatarPhoto.setImageResource(R.drawable.ic_yolka_paw);
             }
 
-            binding.getRoot().setOnClickListener(v -> {
+            View.OnClickListener clickListener = v -> {
                 if (listener != null) listener.onPetSelected(pet);
-            });
+            };
+            binding.getRoot().setOnClickListener(clickListener);
+            binding.cardPetAvatarCircle.setOnClickListener(clickListener);
+            binding.ivPetAvatarPhoto.setOnClickListener(clickListener);
+
             binding.getRoot().setOnLongClickListener(v -> {
                 if (listener != null) listener.onPetLongClick(pet);
                 return true;

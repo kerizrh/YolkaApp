@@ -90,9 +90,11 @@ public class PetCardAdapter extends RecyclerView.Adapter<PetCardAdapter.PetCardV
                 binding.ivPetCardPhoto.setImageResource(R.drawable.ic_yolka_paw);
             }
 
-            binding.getRoot().setOnClickListener(v -> {
+            View.OnClickListener openRecordListener = v -> {
                 if (listener != null) listener.onOpenClinicalRecord(pet);
-            });
+            };
+            binding.getRoot().setOnClickListener(openRecordListener);
+            binding.ivPetCardPhoto.setOnClickListener(openRecordListener);
             binding.btnEditPetCard.setOnClickListener(v -> {
                 if (listener != null) listener.onEditPet(pet);
             });

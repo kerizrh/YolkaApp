@@ -72,6 +72,7 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onPetSelected(Pet pet) {
                 selectPet(pet);
+                openPetClinicalRecord(pet, 0);
             }
 
             @Override
@@ -107,7 +108,6 @@ public class DashboardFragment extends Fragment {
         );
 
         binding.cardSelectedPetBanner.setOnClickListener(v -> openSelectedPetClinicalRecord(0));
-        binding.btnOpenClinicalRecord.setOnClickListener(v -> openSelectedPetClinicalRecord(0));
 
         binding.cardQuickVaccine.setOnClickListener(v -> openSelectedPetClinicalRecord(0));
         binding.cardQuickAppointment.setOnClickListener(v -> openSelectedPetClinicalRecord(2));
@@ -125,16 +125,21 @@ public class DashboardFragment extends Fragment {
         });
     }
 
+    private void openPetClinicalRecord(Pet pet, int initialTab) {
+        if (pet == null) return;
+        Intent intent = new Intent(requireContext(), PetDetailActivity.class);
+        intent.putExtra(PetDetailActivity.EXTRA_PET, pet);
+        intent.putExtra(PetDetailActivity.EXTRA_INITIAL_TAB, initialTab);
+        startActivity(intent);
+    }
+
     private void openSelectedPetClinicalRecord(int initialTab) {
         if (selectedPet == null) {
             Toast.makeText(requireContext(), "Primero registra tu primera mascota", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(requireContext(), PetFormActivity.class));
             return;
         }
-        Intent intent = new Intent(requireContext(), PetDetailActivity.class);
-        intent.putExtra(PetDetailActivity.EXTRA_PET, selectedPet);
-        intent.putExtra(PetDetailActivity.EXTRA_INITIAL_TAB, initialTab);
-        startActivity(intent);
+        openPetClinicalRecord(selectedPet, initialTab);
     }
 
     public void refreshDashboardData() {

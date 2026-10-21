@@ -134,18 +134,19 @@
                             android:id="@+id/tvSelectedPetSummarySub"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Toca aquí para abrir su expediente clínico completo"
+                            android:text="Toca la imagen de tu mascota para ver su expediente clínico"
                             android:textColor="@color/yolka_text_secondary"
                             android:textSize="12sp" />
                     </LinearLayout>
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnOpenClinicalRecord"
-                        style="@style/Widget.Yolka.DeepButton"
+                    <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="38dp"
-                        android:text="Expediente"
-                        android:textSize="12sp" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="›"
+                        android:textColor="@color/yolka_primary_deep"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
