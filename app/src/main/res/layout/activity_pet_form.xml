@@ -166,6 +166,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardBackgroundColor="@color/yolka_surface_variant"
                 app:cardCornerRadius="18dp"
                 app:cardElevation="0dp"
@@ -186,6 +189,7 @@
                         android:textSize="26sp" />
 
                     <TextView
+                        android:id="@+id/tvSpeciesDogTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
@@ -195,6 +199,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvSpeciesDogSub"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Canino"
@@ -209,6 +214,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardBackgroundColor="@color/yolka_surface"
                 app:cardCornerRadius="18dp"
                 app:cardElevation="0dp"
@@ -229,6 +237,7 @@
                         android:textSize="26sp" />
 
                     <TextView
+                        android:id="@+id/tvSpeciesCatTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
@@ -238,6 +247,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvSpeciesCatSub"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Felino"
@@ -364,10 +374,13 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/bg_rounded_card"
+                android:background="@drawable/bg_pill_selected"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
                 android:text="♂ Macho"
-                android:textColor="@color/yolka_text_primary"
+                android:textColor="@color/white"
                 android:textSize="13sp"
                 android:textStyle="bold" />
 
@@ -376,6 +389,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
                 android:text="♀ Hembra"
                 android:textColor="@color/yolka_text_secondary"
@@ -507,9 +523,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
                 android:layout_weight="1"
-                app:cardBackgroundColor="@color/yolka_surface_variant"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/badge_lavender_bg"
                 app:cardCornerRadius="14dp"
-                app:cardElevation="0dp"
+                app:cardElevation="2dp"
                 app:strokeColor="@color/yolka_primary_deep"
                 app:strokeWidth="2dp">
 
@@ -521,18 +540,20 @@
                     android:padding="12dp">
 
                     <TextView
+                        android:id="@+id/tvSizeSmallTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Pequeño"
-                        android:textColor="@color/yolka_text_primary"
+                        android:textColor="@color/yolka_primary_deep"
                         android:textSize="12sp"
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvSizeSmallSub"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="&lt; 10 kg"
-                        android:textColor="@color/yolka_text_secondary"
+                        android:textColor="@color/yolka_primary_deep"
                         android:textSize="10sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -544,6 +565,9 @@
                 android:layout_marginStart="3dp"
                 android:layout_marginEnd="3dp"
                 android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardBackgroundColor="@color/yolka_surface"
                 app:cardCornerRadius="14dp"
                 app:cardElevation="0dp"
@@ -558,6 +582,7 @@
                     android:padding="12dp">
 
                     <TextView
+                        android:id="@+id/tvSizeMediumTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Mediano"
@@ -566,6 +591,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvSizeMediumSub"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="10 - 25 kg"
@@ -580,6 +606,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardBackgroundColor="@color/yolka_surface"
                 app:cardCornerRadius="14dp"
                 app:cardElevation="0dp"
@@ -594,6 +623,7 @@
                     android:padding="12dp">
 
                     <TextView
+                        android:id="@+id/tvSizeLargeTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Grande"
@@ -602,6 +632,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvSizeLargeSub"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="&gt; 25 kg"

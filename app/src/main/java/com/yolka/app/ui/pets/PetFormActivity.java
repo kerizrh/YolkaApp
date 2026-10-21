@@ -1,6 +1,7 @@
 package com.yolka.app.ui.pets;
 
 import android.app.DatePickerDialog;
+import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -133,30 +134,54 @@ public class PetFormActivity extends AppCompatActivity {
         updateSizeSelection(pet.getSize());
     }
 
+    private int dpToPx(int dp) {
+        return (int) (dp * getResources().getDisplayMetrics().density);
+    }
+
     private void updateSpeciesSelection(String species) {
         selectedSpecies = "CAT".equalsIgnoreCase(species) ? "CAT" : "DOG";
         boolean isDog = "DOG".equals(selectedSpecies);
 
-        binding.cardSpeciesDog.setStrokeWidth(isDog ? 5 : 2);
+        // Perro
+        binding.cardSpeciesDog.setStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(this,
+                isDog ? R.color.yolka_primary_deep : R.color.yolka_card_stroke)));
+        binding.cardSpeciesDog.setStrokeWidth(dpToPx(isDog ? 2 : 1));
         binding.cardSpeciesDog.setCardBackgroundColor(ContextCompat.getColor(this,
-                isDog ? R.color.yolka_surface_variant : R.color.yolka_surface));
+                isDog ? R.color.badge_lavender_bg : R.color.yolka_surface));
+        binding.cardSpeciesDog.setCardElevation(dpToPx(isDog ? 2 : 0));
+        binding.tvSpeciesDogTitle.setTextColor(ContextCompat.getColor(this,
+                isDog ? R.color.yolka_primary_deep : R.color.yolka_text_primary));
+        binding.tvSpeciesDogSub.setTextColor(ContextCompat.getColor(this,
+                isDog ? R.color.yolka_primary_deep : R.color.yolka_text_secondary));
 
-        binding.cardSpeciesCat.setStrokeWidth(!isDog ? 5 : 2);
+        // Gato
+        binding.cardSpeciesCat.setStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(this,
+                !isDog ? R.color.yolka_primary_deep : R.color.yolka_card_stroke)));
+        binding.cardSpeciesCat.setStrokeWidth(dpToPx(!isDog ? 2 : 1));
         binding.cardSpeciesCat.setCardBackgroundColor(ContextCompat.getColor(this,
-                !isDog ? R.color.yolka_surface_variant : R.color.yolka_surface));
+                !isDog ? R.color.badge_lavender_bg : R.color.yolka_surface));
+        binding.cardSpeciesCat.setCardElevation(dpToPx(!isDog ? 2 : 0));
+        binding.tvSpeciesCatTitle.setTextColor(ContextCompat.getColor(this,
+                !isDog ? R.color.yolka_primary_deep : R.color.yolka_text_primary));
+        binding.tvSpeciesCatSub.setTextColor(ContextCompat.getColor(this,
+                !isDog ? R.color.yolka_primary_deep : R.color.yolka_text_secondary));
     }
 
     private void updateGenderSelection(String gender) {
         selectedGender = "FEMALE".equalsIgnoreCase(gender) ? "FEMALE" : "MALE";
         boolean isMale = "MALE".equals(selectedGender);
 
-        binding.btnGenderMale.setBackgroundResource(isMale ? R.drawable.bg_rounded_card : 0);
-        binding.btnGenderMale.setTextColor(ContextCompat.getColor(this,
-                isMale ? R.color.yolka_text_primary : R.color.yolka_text_secondary));
-
-        binding.btnGenderFemale.setBackgroundResource(!isMale ? R.drawable.bg_rounded_card : 0);
-        binding.btnGenderFemale.setTextColor(ContextCompat.getColor(this,
-                !isMale ? R.color.yolka_text_primary : R.color.yolka_text_secondary));
+        if (isMale) {
+            binding.btnGenderMale.setBackgroundResource(R.drawable.bg_pill_selected);
+            binding.btnGenderMale.setTextColor(ContextCompat.getColor(this, R.color.white));
+            binding.btnGenderFemale.setBackground(null);
+            binding.btnGenderFemale.setTextColor(ContextCompat.getColor(this, R.color.yolka_text_secondary));
+        } else {
+            binding.btnGenderMale.setBackground(null);
+            binding.btnGenderMale.setTextColor(ContextCompat.getColor(this, R.color.yolka_text_secondary));
+            binding.btnGenderFemale.setBackgroundResource(R.drawable.bg_pill_selected);
+            binding.btnGenderFemale.setTextColor(ContextCompat.getColor(this, R.color.white));
+        }
     }
 
     private void updateSizeSelection(String size) {
@@ -164,9 +189,45 @@ public class PetFormActivity extends AppCompatActivity {
         else if ("MEDIUM".equalsIgnoreCase(size)) selectedSize = "MEDIUM";
         else selectedSize = "SMALL";
 
-        binding.cardSizeSmall.setStrokeWidth("SMALL".equals(selectedSize) ? 5 : 2);
-        binding.cardSizeMedium.setStrokeWidth("MEDIUM".equals(selectedSize) ? 5 : 2);
-        binding.cardSizeLarge.setStrokeWidth("LARGE".equals(selectedSize) ? 5 : 2);
+        boolean isSmall = "SMALL".equals(selectedSize);
+        boolean isMedium = "MEDIUM".equals(selectedSize);
+        boolean isLarge = "LARGE".equals(selectedSize);
+
+        // Pequeño
+        binding.cardSizeSmall.setStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(this,
+                isSmall ? R.color.yolka_primary_deep : R.color.yolka_card_stroke)));
+        binding.cardSizeSmall.setStrokeWidth(dpToPx(isSmall ? 2 : 1));
+        binding.cardSizeSmall.setCardBackgroundColor(ContextCompat.getColor(this,
+                isSmall ? R.color.badge_lavender_bg : R.color.yolka_surface));
+        binding.cardSizeSmall.setCardElevation(dpToPx(isSmall ? 2 : 0));
+        binding.tvSizeSmallTitle.setTextColor(ContextCompat.getColor(this,
+                isSmall ? R.color.yolka_primary_deep : R.color.yolka_text_primary));
+        binding.tvSizeSmallSub.setTextColor(ContextCompat.getColor(this,
+                isSmall ? R.color.yolka_primary_deep : R.color.yolka_text_secondary));
+
+        // Mediano
+        binding.cardSizeMedium.setStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(this,
+                isMedium ? R.color.yolka_primary_deep : R.color.yolka_card_stroke)));
+        binding.cardSizeMedium.setStrokeWidth(dpToPx(isMedium ? 2 : 1));
+        binding.cardSizeMedium.setCardBackgroundColor(ContextCompat.getColor(this,
+                isMedium ? R.color.badge_lavender_bg : R.color.yolka_surface));
+        binding.cardSizeMedium.setCardElevation(dpToPx(isMedium ? 2 : 0));
+        binding.tvSizeMediumTitle.setTextColor(ContextCompat.getColor(this,
+                isMedium ? R.color.yolka_primary_deep : R.color.yolka_text_primary));
+        binding.tvSizeMediumSub.setTextColor(ContextCompat.getColor(this,
+                isMedium ? R.color.yolka_primary_deep : R.color.yolka_text_secondary));
+
+        // Grande
+        binding.cardSizeLarge.setStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(this,
+                isLarge ? R.color.yolka_primary_deep : R.color.yolka_card_stroke)));
+        binding.cardSizeLarge.setStrokeWidth(dpToPx(isLarge ? 2 : 1));
+        binding.cardSizeLarge.setCardBackgroundColor(ContextCompat.getColor(this,
+                isLarge ? R.color.badge_lavender_bg : R.color.yolka_surface));
+        binding.cardSizeLarge.setCardElevation(dpToPx(isLarge ? 2 : 0));
+        binding.tvSizeLargeTitle.setTextColor(ContextCompat.getColor(this,
+                isLarge ? R.color.yolka_primary_deep : R.color.yolka_text_primary));
+        binding.tvSizeLargeSub.setTextColor(ContextCompat.getColor(this,
+                isLarge ? R.color.yolka_primary_deep : R.color.yolka_text_secondary));
     }
 
     private void showBirthDatePicker() {
