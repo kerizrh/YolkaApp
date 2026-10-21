@@ -6,7 +6,7 @@
     android:background="@color/yolka_background"
     android:orientation="vertical">
 
-    <!-- Top Bar (Fiel a Captura 11 de Figma) -->
+    <!-- Top Bar (Fiel a Captura 11 de ) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -56,7 +56,7 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <!-- Avatar Circular con Badge de Cámara (Captura 11 Figma) -->
+            <!-- Avatar Circular con Badge de Cámara (Captura 11 ) -->
             <FrameLayout
                 android:layout_width="112dp"
                 android:layout_height="112dp"
@@ -222,7 +222,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Sección CUENTA & SEGURIDAD (Captura 11 Figma) -->
+            <!-- Sección CUENTA & SEGURIDAD (Captura 11 ) -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -341,7 +341,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Card: Respaldo en la nube (.v2.ylk AES-256-GCM - Captura 11 Figma) -->
+            <!-- Card: Respaldo en la nube (.v2.ylk AES-256-GCM - Captura 11 ) -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -457,7 +457,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Danger Zone: Eliminar cuenta permanentemente (Captura 11 Figma) -->
+            <!-- Danger Zone: Eliminar cuenta permanentemente (Captura 11 ) -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardDeleteAccount"
                 android:layout_width="match_parent"

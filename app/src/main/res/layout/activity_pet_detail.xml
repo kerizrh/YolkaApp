@@ -6,7 +6,7 @@
     android:background="@color/yolka_background"
     android:orientation="vertical">
 
-    <!-- Top Bar Expediente Clínico (Capturas 5, 6, 7 de Figma) -->
+    <!-- Top Bar Expediente Clínico (Capturas 5, 6, 7 de ) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="64dp"
@@ -93,7 +93,7 @@
             android:orientation="vertical"
             android:padding="18dp">
 
-            <!-- Tarjeta Resumen de Mascota (Capturas 5, 6 y 7 de Figma) -->
+            <!-- Tarjeta Resumen de Mascota (Capturas 5, 6 y 7 de ) -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

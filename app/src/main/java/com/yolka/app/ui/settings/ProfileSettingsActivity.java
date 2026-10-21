@@ -28,7 +28,7 @@ import com.yolka.app.utils.SyncQueueManager;
 
 /**
  * Módulo 9: Ajustes de Perfil, Seguridad y Respaldo en la Nube (.v2.ylk).
- * Implementa fielmente la Captura 11 de Figma (Modo Oscuro / Modo Claro).
+ * Implementa fielmente la Captura 11 de  (Modo Oscuro / Modo Claro).
  */
 public class ProfileSettingsActivity extends AppCompatActivity {
 

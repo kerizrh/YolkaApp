@@ -12,7 +12,7 @@
         android:orientation="vertical"
         android:padding="18dp">
 
-        <!-- Mapa Interactivo Osmdroid en Tarjeta Redondeada (Captura 9 de Figma) -->
+        <!-- Mapa Interactivo Osmdroid en Tarjeta Redondeada (Captura 9 de ) -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="250dp"
@@ -31,7 +31,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
-                <!-- Pill inferior izquierda: Radio y conteo de clínicas (Captura 9 Figma) -->
+                <!-- Pill inferior izquierda: Radio y conteo de clínicas (Captura 9 ) -->
                 <TextView
                     android:id="@+id/tvMapRadiusBadge"
                     android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
             </FrameLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Cabecera Veterinarias Disponibles (Captura 9 de Figma) -->
+        <!-- Cabecera Veterinarias Disponibles (Captura 9 de ) -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -129,7 +129,7 @@
             android:layout_marginTop="12dp"
             android:nestedScrollingEnabled="false" />
 
-        <!-- Aviso de Directorio (Captura 9 de Figma) -->
+        <!-- Aviso de Directorio (Captura 9 de ) -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

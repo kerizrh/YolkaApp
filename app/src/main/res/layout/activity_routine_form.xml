@@ -12,7 +12,7 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <!-- Cabecera Nueva Rutina (Capturas 8 y 10 de Figma) -->
+        <!-- Cabecera Nueva Rutina (Capturas 8 y 10 de ) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -224,7 +224,7 @@
             android:textColorHint="@color/yolka_text_muted"
             android:textSize="13sp" />
 
-        <!-- Asignar mascota (Carrusel circular Captura 8 y 10 de Figma) -->
+        <!-- Asignar mascota (Carrusel circular Captura 8 y 10 de ) -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -248,7 +248,7 @@
                 android:orientation="horizontal" />
         </LinearLayout>
 
-        <!-- Bloque de Fecha, Hora y Frecuencia (Capturas 8 y 10 de Figma) -->
+        <!-- Bloque de Fecha, Hora y Frecuencia (Capturas 8 y 10 de ) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

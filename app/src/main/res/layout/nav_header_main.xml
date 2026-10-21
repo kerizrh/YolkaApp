@@ -51,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
-        android:text="Modo Oscuro (Figma)"
+        android:text="Modo Oscuro ()"
         android:textColor="@color/yolka_text_primary"
         android:textSize="13sp"
         app:thumbTint="@color/yolka_primary_deep" />

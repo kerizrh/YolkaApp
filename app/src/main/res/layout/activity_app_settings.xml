@@ -78,7 +78,7 @@
                         android:id="@+id/switchAppDarkMode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Tema Oscuro (Noche Ciruela Figma)"
+                        android:text="Tema Oscuro (Noche Ciruela)"
                         android:textColor="@color/yolka_text_primary"
                         android:textSize="15sp"
                         android:textStyle="bold" />

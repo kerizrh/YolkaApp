@@ -14,7 +14,7 @@ import com.yolka.app.utils.SyncQueueManager;
 
 /**
  * ThemeManager (inspirado en ThemeContext de Kafoo):
- * Aplica en caliente el Modo Claro y Modo Oscuro de Figma y sincroniza la preferencia
+ * Aplica en caliente el Modo Claro y Modo Oscuro de la aplicación y sincroniza la preferencia
  * con el backend (o la encola si está sin conexión).
  */
 public class ThemeManager {

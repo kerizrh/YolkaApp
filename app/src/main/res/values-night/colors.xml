@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Paleta Figma Modo Oscuro (Yolka.md Capturas 10 y 11) -->
+    <!-- Paleta  Modo Oscuro (Yolka.md Capturas 10 y 11) -->
     <color name="yolka_background">#0D0B10</color>
     <color name="yolka_surface">#16131D</color>
     <color name="yolka_surface_variant">#211B2D</color>
@@ -23,7 +23,7 @@
     <color name="yolka_text_secondary">#B7ABC9</color>
     <color name="yolka_text_muted">#7E7291</color>
 
-    <!-- Categorías / Badges Figma Oscuro -->
+    <!-- Categorías / Badges  Oscuro -->
     <color name="badge_nutrition_bg">#33220B</color>
     <color name="badge_nutrition_text">#FFB74D</color>
     <color name="badge_hygiene_bg">#0D2B3E</color>

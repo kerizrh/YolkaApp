@@ -17,7 +17,7 @@
             android:orientation="vertical"
             android:padding="18dp">
 
-            <!-- Saludo Principal (Captura 3 de Figma) -->
+            <!-- Saludo Principal (Captura 3 de ) -->
             <TextView
                 android:id="@+id/tvDashboardGreeting"
                 android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
                     android:clipToPadding="false"
                     android:orientation="horizontal" />
 
-                <!-- Botón Circular + Agregar (Captura 3 Figma) -->
+                <!-- Botón Circular + Agregar (Captura 3 ) -->
                 <LinearLayout
                     android:id="@+id/btnAddPetCircle"
                     android:layout_width="wrap_content"
@@ -149,7 +149,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Próximas actividades de hoy (Captura 3 de Figma) -->
+            <!-- Próximas actividades de hoy (Captura 3 de ) -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -196,7 +196,7 @@
                 android:textSize="13sp"
                 android:visibility="gone" />
 
-            <!-- Acciones rápidas (Captura 3 de Figma: Registrar Vacuna | Nueva Cita) -->
+            <!-- Acciones rápidas (Captura 3 de : Registrar Vacuna | Nueva Cita) -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -304,7 +304,7 @@
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
-            <!-- Artículos y Guías (Captura 3 de Figma) -->
+            <!-- Artículos y Guías (Captura 3 de ) -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

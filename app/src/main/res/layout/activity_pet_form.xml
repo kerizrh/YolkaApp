@@ -12,7 +12,7 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <!-- Cabecera Registro de Mascota (Captura 4 de Figma) -->
+        <!-- Cabecera Registro de Mascota (Captura 4 de ) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
             android:layout_marginTop="8dp"
             android:background="@color/yolka_primary_deep" />
 
-        <!-- Subir foto de tu mascota (Captura 4 de Figma) -->
+        <!-- Subir foto de tu mascota (Captura 4 de ) -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardPetPhotoPicker"
             android:layout_width="match_parent"
@@ -250,7 +250,7 @@
             android:textColorHint="@color/yolka_text_muted"
             android:textSize="14sp" />
 
-        <!-- Raza y Color / Pelaje (2 columnas como en Captura 4 Figma) -->
+        <!-- Raza y Color / Pelaje (2 columnas como en Captura 4 ) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
