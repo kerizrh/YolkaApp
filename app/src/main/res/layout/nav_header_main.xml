@@ -171,7 +171,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Modo Oscuro (Figma)"
+                android:text="Modo Oscuro"
                 android:textColor="@color/yolka_text_primary"
                 android:textSize="13sp"
                 android:textStyle="bold" />
