@@ -1,30 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/drawer_dashboard"
-            android:icon="@drawable/ic_home"
-            android:title="Dashboard Principal" />
-        <item
-            android:id="@+id/drawer_pets"
-            android:icon="@drawable/ic_yolka_paw"
-            android:title="Mis Mascotas" />
-        <item
-            android:id="@+id/drawer_medical"
-            android:icon="@drawable/ic_calendar"
-            android:title="Expediente Clínico" />
-        <item
-            android:id="@+id/drawer_routines"
-            android:icon="@drawable/ic_calendar"
-            android:title="Alimentación, Paseos e Higiene" />
         <item
             android:id="@+id/drawer_vets"
             android:icon="@drawable/ic_location"
             android:title="Mapa de Veterinarias" />
-        <item
-            android:id="@+id/drawer_tips"
-            android:icon="@drawable/ic_yolka_paw"
-            android:title="Consejos y Bienestar" />
     </group>
 
     <item android:title="Cuenta y Ajustes">
@@ -39,7 +20,7 @@
                 android:title="Perfil y Respaldo Cloud" />
             <item
                 android:id="@+id/drawer_app_settings"
-                android:icon="@drawable/ic_calendar"
+                android:icon="@drawable/ic_settings"
                 android:title="Configuración de la App" />
             <item
                 android:id="@+id/drawer_logout"
@@ -47,4 +28,5 @@
                 android:title="Cerrar Sesión" />
         </menu>
     </item>
+
 </menu>
