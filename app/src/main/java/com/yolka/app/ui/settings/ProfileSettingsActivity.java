@@ -66,7 +66,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
         String lastBackup = Store.getInstance().getLastBackupAt();
         if (lastBackup != null && !lastBackup.isBlank()) {
-            binding.tvLastBackupTime.setText("Última copia: " + DateUtils.formatDisplayDate(lastBackup));
+            binding.tvLastBackupTime.setText("Última copia: " + DateUtils.formatIsoDate(lastBackup));
             binding.tvBackupStatusBadge.setText("Sincronizado");
         } else {
             binding.tvLastBackupTime.setText("Sin copias recientes en este dispositivo");
