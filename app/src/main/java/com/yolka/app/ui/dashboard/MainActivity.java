@@ -21,6 +21,7 @@ import com.yolka.app.models.User;
 import com.yolka.app.ui.auth.LoginActivity;
 import com.yolka.app.ui.pets.PetDetailActivity;
 import com.yolka.app.ui.pets.PetsListFragment;
+import com.yolka.app.ui.routines.RoutinesFragment;
 import com.yolka.app.utils.NetworkMonitor;
 import com.yolka.app.utils.Store;
 import com.yolka.app.utils.SyncQueueManager;
@@ -116,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 loadFragment(new DashboardFragment(), "Inicio");
                 return true;
             } else if (id == R.id.nav_routines) {
-                loadFragment(new PetsListFragment(), "Mascotas y Cuidados");
+                loadFragment(new RoutinesFragment(), "Rutinas y Hábitos");
                 return true;
             } else if (id == R.id.nav_vets_map) {
                 loadFragment(new PetsListFragment(), "Veterinarias");

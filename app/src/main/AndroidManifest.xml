@@ -58,6 +58,11 @@
             android:name=".ui.pets.PetDetailActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.routines.RoutineFormActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
     </application>
 
 </manifest>
