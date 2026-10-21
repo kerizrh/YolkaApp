@@ -19,7 +19,9 @@ import com.yolka.app.context.UserManager;
 import com.yolka.app.databinding.ActivityAppSettingsBinding;
 import com.yolka.app.models.User;
 import com.yolka.app.ui.auth.LoginActivity;
+import com.yolka.app.ui.dialogs.PermissionsBottomSheetDialogFragment;
 import com.yolka.app.utils.Api;
+import com.yolka.app.utils.PermissionUtils;
 import com.yolka.app.utils.Store;
 import com.yolka.app.utils.SyncQueueManager;
 
@@ -101,6 +103,16 @@ public class AppSettingsActivity extends AppCompatActivity {
             TranslationManager.getInstance().setLanguage(lang);
         });
 
+        binding.tvPermissionsSummary.setOnClickListener(v -> {
+            if (!PermissionUtils.hasAllEssentialPermissions(this)) {
+                PermissionsBottomSheetDialogFragment dialog = PermissionsBottomSheetDialogFragment.newInstance();
+                dialog.setOnPermissionsResolvedListener(this::refreshPermissionsSummary);
+                dialog.show(getSupportFragmentManager(), "PermissionsBottomSheet");
+            } else {
+                Toast.makeText(this, "Todos los permisos esenciales están concedidos", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         binding.btnOpenSystemAppSettings.setOnClickListener(v -> {
             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
             Uri uri = Uri.fromParts("package", getPackageName(), null);
@@ -128,15 +140,10 @@ public class AppSettingsActivity extends AppCompatActivity {
     }
 
     private void refreshPermissionsSummary() {
-        boolean locationGranted = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED;
-        boolean notifGranted = true;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            notifGranted = ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
-                    == PackageManager.PERMISSION_GRANTED;
-        }
-        String text = "• Ubicación GPS (Veterinarias): " + (locationGranted ? "Concedido" : "Pendiente") + "\n"
-                + "• Notificaciones Push (Recordatorios): " + (notifGranted ? "Concedido" : "Pendiente");
+        boolean locationGranted = PermissionUtils.hasLocationPermission(this);
+        boolean notifGranted = PermissionUtils.hasNotificationPermission(this);
+        String text = "• Ubicación GPS (Veterinarias): " + (locationGranted ? "Concedido ✓" : "Pendiente ⚠️ (Toca para activar)") + "\n"
+                + "• Notificaciones Push (Recordatorios): " + (notifGranted ? "Concedido ✓" : "Pendiente ⚠️ (Toca para activar)");
         binding.tvPermissionsSummary.setText(text);
     }
 

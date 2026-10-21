@@ -46,6 +46,7 @@ public class Store {
     private static final String KEY_TIMEZONE = "app_timezone";
     private static final String KEY_LAST_BACKUP = "last_backup_at";
     private static final String KEY_SELECTED_PET_ID = "selected_pet_id";
+    private static final String KEY_PERMISSIONS_PROMPTED = "permissions_prompted";
 
     // Claves de Caché Parcialmente Offline (JSON cifrado, sin SQLite)
     private static final String KEY_CACHED_PETS = "cached_pets_json";
@@ -214,6 +215,14 @@ public class Store {
 
     public String getSelectedPetId() {
         return prefs.getString(KEY_SELECTED_PET_ID, null);
+    }
+
+    public boolean arePermissionsPrompted() {
+        return prefs.getBoolean(KEY_PERMISSIONS_PROMPTED, false);
+    }
+
+    public void setPermissionsPrompted(boolean prompted) {
+        prefs.edit().putBoolean(KEY_PERMISSIONS_PROMPTED, prompted).apply();
     }
 
     // --- Caché JSON Cifrada (Modo Parcialmente Offline) ---

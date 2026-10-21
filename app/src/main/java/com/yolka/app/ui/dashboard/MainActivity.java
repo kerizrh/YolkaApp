@@ -25,7 +25,9 @@ import com.yolka.app.ui.routines.RoutinesFragment;
 import com.yolka.app.ui.settings.AppSettingsActivity;
 import com.yolka.app.ui.settings.ProfileSettingsActivity;
 import com.yolka.app.ui.tips.TipsFragment;
+import com.yolka.app.ui.dialogs.PermissionsBottomSheetDialogFragment;
 import com.yolka.app.utils.NetworkMonitor;
+import com.yolka.app.utils.PermissionUtils;
 import com.yolka.app.utils.Store;
 import com.yolka.app.utils.SyncQueueManager;
 
@@ -47,6 +49,14 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             loadFragment(new DashboardFragment(), "Inicio");
+            checkPermissionsOnStartup();
+        }
+    }
+
+    private void checkPermissionsOnStartup() {
+        if (!PermissionUtils.hasAllEssentialPermissions(this) && !Store.getInstance().arePermissionsPrompted()) {
+            PermissionsBottomSheetDialogFragment dialog = PermissionsBottomSheetDialogFragment.newInstance();
+            dialog.show(getSupportFragmentManager(), "PermissionsBottomSheet");
         }
     }
 

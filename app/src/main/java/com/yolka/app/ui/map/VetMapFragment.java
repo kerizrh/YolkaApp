@@ -27,6 +27,7 @@ import com.yolka.app.models.VetClinic;
 import com.yolka.app.ui.adapters.VetClinicAdapter;
 import com.yolka.app.utils.Api;
 import com.yolka.app.utils.NetworkMonitor;
+import com.yolka.app.utils.PermissionUtils;
 import com.yolka.app.utils.Store;
 
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -50,11 +51,15 @@ public class VetMapFragment extends Fragment {
     private double userLng = DEFAULT_LNG;
     private List<VetClinic> clinics = new ArrayList<>();
 
-    private final ActivityResultLauncher<String> locationPermLauncher = registerForActivityResult(
-            new ActivityResultContracts.RequestPermission(),
-            granted -> {
-                if (granted) {
+    private final ActivityResultLauncher<String[]> locationPermLauncher = registerForActivityResult(
+            new ActivityResultContracts.RequestMultiplePermissions(),
+            result -> {
+                boolean fineGranted = Boolean.TRUE.equals(result.get(Manifest.permission.ACCESS_FINE_LOCATION));
+                boolean coarseGranted = Boolean.TRUE.equals(result.get(Manifest.permission.ACCESS_COARSE_LOCATION));
+                if (fineGranted || coarseGranted) {
                     fetchDeviceLocation();
+                } else if (isAdded() && getContext() != null) {
+                    Toast.makeText(requireContext(), "Permiso de ubicación denegado. Se usará la ubicación base.", Toast.LENGTH_SHORT).show();
                 }
             }
     );
@@ -128,11 +133,13 @@ public class VetMapFragment extends Fragment {
     }
 
     private void requestOrFetchLocation() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
+        if (PermissionUtils.hasLocationPermission(requireContext())) {
             fetchDeviceLocation();
         } else {
-            locationPermLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
+            locationPermLauncher.launch(new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+            });
         }
     }
 
