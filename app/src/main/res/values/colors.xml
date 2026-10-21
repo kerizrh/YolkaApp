@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Paleta Figma Modo Claro (Yolka.md) -->
+    <color name="yolka_background">#FAF7FE</color>
+    <color name="yolka_surface">#FFFFFF</color>
+    <color name="yolka_surface_variant">#F4EEFC</color>
+    <color name="yolka_surface_elevated">#FBF9FF</color>
+    <color name="yolka_card_stroke">#EAE0F8</color>
+    <color name="yolka_input_bg">#F7F4FC</color>
+    <color name="yolka_input_stroke">#E4D8F6</color>
+
+    <!-- Colores de marca y acentos -->
+    <color name="yolka_primary">#C8B3FA</color>
+    <color name="yolka_on_primary">#1E1136</color>
+    <color name="yolka_primary_deep">#684E8E</color>
+    <color name="yolka_on_primary_deep">#FFFFFF</color>
+    <color name="yolka_secondary">#5A3E85</color>
+    <color name="yolka_accent_teal">#00897B</color>
+    <color name="yolka_accent_coral">#FF7043</color>
+
+    <!-- Textos -->
+    <color name="yolka_text_primary">#1B112C</color>
+    <color name="yolka_text_secondary">#6E6282</color>
+    <color name="yolka_text_muted">#9A8FB0</color>
+
+    <!-- Categorías / Badges Figma -->
+    <color name="badge_nutrition_bg">#FFF3E0</color>
+    <color name="badge_nutrition_text">#9E5800</color>
+    <color name="badge_hygiene_bg">#E1F5FE</color>
+    <color name="badge_hygiene_text">#026AA7</color>
+    <color name="badge_health_bg">#DDF6EB</color>
+    <color name="badge_health_text">#00695C</color>
+    <color name="badge_fun_bg">#FFEAD5</color>
+    <color name="badge_fun_text">#B54708</color>
+    <color name="badge_lavender_bg">#EFE6FD</color>
+    <color name="badge_lavender_text">#5B3E8B</color>
+
+    <!-- Estados y Peligro -->
+    <color name="yolka_danger_bg">#FDECEC</color>
+    <color name="yolka_danger_text">#C62828</color>
+    <color name="yolka_success">#2E7D32</color>
+    <color name="yolka_warning">#EF6C00</color>
+    <color name="yolka_bottom_nav_bg">#F6F1FC</color>
+    <color name="yolka_divider">#ECE4F8</color>
+</resources>

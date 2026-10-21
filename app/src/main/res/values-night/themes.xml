@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Yolka" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/yolka_primary_deep</item>
+        <item name="colorOnPrimary">@color/yolka_on_primary_deep</item>
+        <item name="colorPrimaryContainer">@color/yolka_primary</item>
+        <item name="colorOnPrimaryContainer">@color/yolka_on_primary</item>
+        <item name="colorSecondary">@color/yolka_secondary</item>
+        <item name="android:windowBackground">@color/yolka_background</item>
+        <item name="colorSurface">@color/yolka_surface</item>
+        <item name="colorOnSurface">@color/yolka_text_primary</item>
+        <item name="colorSurfaceVariant">@color/yolka_surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/yolka_text_secondary</item>
+        <item name="android:statusBarColor">@color/yolka_background</item>
+        <item name="android:navigationBarColor">@color/yolka_bottom_nav_bg</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>

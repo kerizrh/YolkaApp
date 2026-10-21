@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="20dp"/>
+            <solid android:color="#EFE6FD"/>
+            <stroke android:width="2dp" android:color="#DCD0F2"/>
+        </shape>
+    </item>
+    <item android:top="6dp" android:bottom="6dp" android:left="6dp" android:right="6dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="15dp"/>
+            <solid android:color="#C8B3FA"/>
+        </shape>
+    </item>
+    <item
+        android:drawable="@drawable/ic_yolka_paw"
+        android:gravity="center"
+        android:width="36dp"
+        android:height="36dp"/>
+</layer-list>

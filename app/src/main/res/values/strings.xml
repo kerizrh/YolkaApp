@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Yolka</string>
+    <string name="welcome_title">¡Bienvenido a Yolka!</string>
+    <string name="welcome_subtitle">El cuidado que tus compañeros peludos merecen</string>
+    <string name="email_label">Correo Electrónico</string>
+    <string name="email_hint">ejemplo@correo.com</string>
+    <string name="password_label">Contraseña</string>
+    <string name="forgot_password_link">¿Olvidaste tu contraseña?</string>
+    <string name="login_button">Iniciar Sesión  →</string>
+    <string name="or_continue_with">o continúa con</string>
+    <string name="google_button">Google</string>
+    <string name="no_account_prompt">¿No tienes una cuenta aún?</string>
+    <string name="register_free_link">Regístrate gratis</string>
+    <string name="register_button">Registrar Usuario  →</string>
+    <string name="full_name_label">Nombre</string>
+    <string name="username_or_phone_label">Usuario / Teléfono</string>
+    <string name="confirm_password_label">Confirmar Contraseña</string>
+    <string name="nav_home">Inicio</string>
+    <string name="nav_routines">Cuidados</string>
+    <string name="nav_vets">Veterinarias</string>
+    <string name="offline_banner">Modo sin conexión • Los cambios se sincronizarán al reconectar</string>
+    <string name="sync_completed">Cambios pendientes sincronizados con Yolka Cloud</string>
+</resources>

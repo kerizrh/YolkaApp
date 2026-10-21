@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Paleta Figma Modo Oscuro (Yolka.md Capturas 10 y 11) -->
+    <color name="yolka_background">#0D0B10</color>
+    <color name="yolka_surface">#16131D</color>
+    <color name="yolka_surface_variant">#211B2D</color>
+    <color name="yolka_surface_elevated">#1C1826</color>
+    <color name="yolka_card_stroke">#2E263D</color>
+    <color name="yolka_input_bg">#131019</color>
+    <color name="yolka_input_stroke">#352C47</color>
+
+    <!-- Colores de marca y acentos en Modo Oscuro -->
+    <color name="yolka_primary">#431E70</color>
+    <color name="yolka_on_primary">#F5EEFF</color>
+    <color name="yolka_primary_deep">#D4BBFF</color>
+    <color name="yolka_on_primary_deep">#1E1136</color>
+    <color name="yolka_secondary">#CFAFFF</color>
+    <color name="yolka_accent_teal">#4DB6AC</color>
+    <color name="yolka_accent_coral">#FF8A65</color>
+
+    <!-- Textos -->
+    <color name="yolka_text_primary">#F5EEFF</color>
+    <color name="yolka_text_secondary">#B7ABC9</color>
+    <color name="yolka_text_muted">#7E7291</color>
+
+    <!-- Categorías / Badges Figma Oscuro -->
+    <color name="badge_nutrition_bg">#33220B</color>
+    <color name="badge_nutrition_text">#FFB74D</color>
+    <color name="badge_hygiene_bg">#0D2B3E</color>
+    <color name="badge_hygiene_text">#81D4FA</color>
+    <color name="badge_health_bg">#0D2E28</color>
+    <color name="badge_health_text">#80CBC4</color>
+    <color name="badge_fun_bg">#361D0A</color>
+    <color name="badge_fun_text">#FFCC80</color>
+    <color name="badge_lavender_bg">#2D1C47</color>
+    <color name="badge_lavender_text">#D9C2FF</color>
+
+    <!-- Estados y Peligro (Captura 11 Eliminar cuenta) -->
+    <color name="yolka_danger_bg">#241317</color>
+    <color name="yolka_danger_text">#F28B82</color>
+    <color name="yolka_success">#66BB6A</color>
+    <color name="yolka_warning">#FFA726</color>
+    <color name="yolka_bottom_nav_bg">#14111B</color>
+    <color name="yolka_divider">#272035</color>
+</resources>
