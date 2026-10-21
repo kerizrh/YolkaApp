@@ -108,9 +108,7 @@ public class MainActivity extends AppCompatActivity {
         binding.navigationView.setNavigationItemSelectedListener(item -> {
             binding.drawerLayout.closeDrawer(GravityCompat.END);
             int id = item.getItemId();
-            if (id == R.id.drawer_vets) {
-                binding.bottomNav.setSelectedItemId(R.id.nav_vets_map);
-            } else if (id == R.id.drawer_notifications) {
+            if (id == R.id.drawer_notifications) {
                 startActivity(new Intent(MainActivity.this, NotificationsActivity.class));
             } else if (id == R.id.drawer_profile) {
                 startActivity(new Intent(MainActivity.this, ProfileSettingsActivity.class));
