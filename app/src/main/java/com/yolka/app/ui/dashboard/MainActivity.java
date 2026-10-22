@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, ProfileSettingsActivity.class));
         };
         headerBinding.cardDrawerProfile.setOnClickListener(openProfileListener);
+        headerBinding.btnDrawerClose.setOnClickListener(v -> binding.drawerLayout.closeDrawer(GravityCompat.END));
 
         // Al presionar el avatar superior derecho se despliega el sidebar lateral derecho
         binding.cardTopUserAvatar.setOnClickListener(v ->
@@ -102,19 +103,20 @@ public class MainActivity extends AppCompatActivity {
             int id = item.getItemId();
             if (id == R.id.drawer_notifications) {
                 startActivity(new Intent(MainActivity.this, NotificationsActivity.class));
-            } else if (id == R.id.drawer_profile) {
-                startActivity(new Intent(MainActivity.this, ProfileSettingsActivity.class));
             } else if (id == R.id.drawer_app_settings) {
                 startActivity(new Intent(MainActivity.this, AppSettingsActivity.class));
-            } else if (id == R.id.drawer_logout) {
-                AuthManager.getInstance().logout(() -> {
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
-                });
             }
             return true;
+        });
+
+        binding.btnDrawerLogout.setOnClickListener(v -> {
+            binding.drawerLayout.closeDrawer(GravityCompat.END);
+            AuthManager.getInstance().logout(() -> {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            });
         });
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {

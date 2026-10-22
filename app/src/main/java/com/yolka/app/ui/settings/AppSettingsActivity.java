@@ -137,15 +137,6 @@ public class AppSettingsActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             }));
         });
-
-        binding.btnLogoutApp.setOnClickListener(v -> {
-            AuthManager.getInstance().logout(() -> {
-                Intent intent = new Intent(AppSettingsActivity.this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
-            });
-        });
     }
 
     private void refreshPermissionsSummary() {

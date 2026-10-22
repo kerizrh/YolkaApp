@@ -8,17 +8,9 @@
                 android:icon="@drawable/ic_bell"
                 android:title="Notificaciones Push" />
             <item
-                android:id="@+id/drawer_profile"
-                android:icon="@drawable/ic_yolka_paw"
-                android:title="Perfil y Respaldo Cloud" />
-            <item
                 android:id="@+id/drawer_app_settings"
                 android:icon="@drawable/ic_settings"
                 android:title="Configuración de la App" />
-            <item
-                android:id="@+id/drawer_logout"
-                android:icon="@drawable/ic_yolka_paw"
-                android:title="Cerrar Sesión" />
         </menu>
     </item>
 

@@ -246,21 +246,6 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Cerrar Sesión -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnLogoutApp"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="20dp"
-                android:text="Cerrar Sesión en este Dispositivo"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:backgroundTint="@color/yolka_danger"
-                app:cornerRadius="14dp" />
-
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
