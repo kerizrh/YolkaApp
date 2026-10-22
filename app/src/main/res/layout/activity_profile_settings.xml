@@ -58,11 +58,16 @@
 
             <!-- Avatar Circular con Badge de Cámara (Captura 11 ) -->
             <FrameLayout
+                android:id="@+id/layoutAvatarContainer"
                 android:layout_width="112dp"
                 android:layout_height="112dp"
-                android:layout_marginTop="6dp">
+                android:layout_marginTop="6dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless">
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardProfileAvatar"
                     android:layout_width="106dp"
                     android:layout_height="106dp"
                     android:layout_gravity="center"
@@ -86,6 +91,8 @@
                     android:layout_width="34dp"
                     android:layout_height="34dp"
                     android:layout_gravity="bottom|end"
+                    android:clickable="true"
+                    android:focusable="true"
                     app:cardBackgroundColor="@color/yolka_primary"
                     app:cardCornerRadius="17dp"
                     app:cardElevation="2dp"
@@ -97,7 +104,7 @@
                         android:layout_height="match_parent"
                         android:contentDescription="Cambiar foto"
                         android:padding="7dp"
-                        android:src="@drawable/ic_plus"
+                        android:src="@drawable/ic_camera"
                         app:tint="@color/yolka_on_primary" />
                 </com.google.android.material.card.MaterialCardView>
             </FrameLayout>
@@ -194,19 +201,21 @@
                         android:textColorHint="@color/yolka_text_muted"
                         android:textSize="14sp" />
 
-                    <EditText
-                        android:id="@+id/etEditPhotoUrl"
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnPickPhotoFromGallery"
+                        style="@style/Widget.Material3.Button.TonalButton"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:layout_marginTop="10dp"
-                        android:background="@drawable/bg_input_field"
-                        android:hint="URL de fotografía de perfil (opcional)"
-                        android:inputType="textUri"
-                        android:paddingStart="14dp"
-                        android:paddingEnd="14dp"
-                        android:textColor="@color/yolka_text_primary"
-                        android:textColorHint="@color/yolka_text_muted"
-                        android:textSize="14sp" />
+                        android:text="📷  Elegir foto de la galería"
+                        android:textAllCaps="false"
+                        android:textColor="@color/yolka_primary_deep"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/yolka_surface_variant"
+                        app:cornerRadius="12dp"
+                        app:strokeColor="@color/yolka_card_stroke"
+                        app:strokeWidth="1dp" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnSaveProfile"

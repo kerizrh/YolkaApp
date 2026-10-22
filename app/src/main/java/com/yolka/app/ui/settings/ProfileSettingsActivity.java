@@ -37,6 +37,7 @@ import com.yolka.app.utils.SyncQueueManager;
 public class ProfileSettingsActivity extends AppCompatActivity {
 
     private ActivityProfileSettingsBinding binding;
+    private String currentPhotoUrl = null;
 
     private final ActivityResultLauncher<String> avatarPickerLauncher = registerForActivityResult(
             new ActivityResultContracts.GetContent(),
@@ -62,11 +63,11 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     private void bindUserProfile() {
         User user = UserManager.getInstance().getCurrentUser();
         if (user != null) {
+            currentPhotoUrl = user.getPhotoUrl();
             binding.tvProfileFullName.setText(user.getFullName() != null ? user.getFullName() : user.getFirstName());
             binding.tvProfileEmail.setText(user.getEmail() != null ? user.getEmail() : "");
             binding.etEditFullName.setText(user.getFullName() != null ? user.getFullName() : "");
             binding.etEditPhone.setText(user.getPhone() != null ? user.getPhone() : "");
-            binding.etEditPhotoUrl.setText(user.getPhotoUrl() != null ? user.getPhotoUrl() : "");
 
             if (user.getPhotoUrl() != null && !user.getPhotoUrl().isBlank()) {
                 Glide.with(this)
@@ -93,8 +94,13 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             binding.cardEditProfileForm.setVisibility(current == View.VISIBLE ? View.GONE : View.VISIBLE);
         };
         binding.btnToggleEditProfile.setOnClickListener(toggleEditProfile);
-        binding.btnChangePhotoBadge.setOnClickListener(v -> avatarPickerLauncher.launch("image/*"));
-        binding.ivProfileAvatar.setOnClickListener(v -> avatarPickerLauncher.launch("image/*"));
+
+        View.OnClickListener pickPhotoListener = v -> avatarPickerLauncher.launch("image/*");
+        binding.layoutAvatarContainer.setOnClickListener(pickPhotoListener);
+        binding.cardProfileAvatar.setOnClickListener(pickPhotoListener);
+        binding.btnChangePhotoBadge.setOnClickListener(pickPhotoListener);
+        binding.ivProfileAvatar.setOnClickListener(pickPhotoListener);
+        binding.btnPickPhotoFromGallery.setOnClickListener(pickPhotoListener);
 
         binding.btnSaveProfile.setOnClickListener(v -> saveProfileChanges());
 
@@ -118,7 +124,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
         String fullName = binding.etEditFullName.getText().toString().trim();
         String phone = binding.etEditPhone.getText().toString().trim();
-        String photoUrl = binding.etEditPhotoUrl.getText().toString().trim();
+        String photoUrl = currentPhotoUrl != null ? currentPhotoUrl : (user.getPhotoUrl() != null ? user.getPhotoUrl() : "");
 
         if (fullName.isEmpty()) {
             Toast.makeText(this, "El nombre completo no puede estar vacío", Toast.LENGTH_SHORT).show();
@@ -170,11 +176,11 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                 .circleCrop()
                 .into(binding.ivProfileAvatar);
 
-        Toast.makeText(this, "Subiendo foto a Google Drive...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Subiendo foto de perfil...", Toast.LENGTH_SHORT).show();
         StorageClientService.getInstance().uploadImage(this, uri, new Api.ApiCallback<String>() {
             @Override
             public void onSuccess(String cloudUrl) {
-                binding.etEditPhotoUrl.setText(cloudUrl);
+                currentPhotoUrl = cloudUrl;
                 User user = UserManager.getInstance().getCurrentUser();
                 if (user != null) {
                     user.setPhotoUrl(cloudUrl);
@@ -185,7 +191,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                             null
                     );
                 }
-                Toast.makeText(ProfileSettingsActivity.this, "Foto de perfil actualizada en Google Drive 🐾", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProfileSettingsActivity.this, "Foto de perfil actualizada con éxito 🐾", Toast.LENGTH_SHORT).show();
             }
 
             @Override
