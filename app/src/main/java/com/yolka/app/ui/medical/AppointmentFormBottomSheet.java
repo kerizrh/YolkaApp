@@ -17,6 +17,7 @@ import com.yolka.app.models.ApiPayloads.AppointmentRequest;
 import com.yolka.app.models.ApiPayloads.GenericResponse;
 import com.yolka.app.models.Pet;
 import com.yolka.app.utils.Api;
+import com.yolka.app.utils.DateUtils;
 import com.yolka.app.utils.NetworkMonitor;
 import com.yolka.app.utils.Store;
 import com.yolka.app.utils.SyncQueueManager;
@@ -32,6 +33,7 @@ public class AppointmentFormBottomSheet extends BottomSheetDialogFragment {
     private Pet pet;
     private Pet.AppointmentRecord editingRecord;
     private VaccineFormBottomSheet.OnPetUpdatedListener listener;
+    private String selectedTime = "10:00";
 
     public static AppointmentFormBottomSheet newInstance(Pet pet, VaccineFormBottomSheet.OnPetUpdatedListener listener) {
         return newInstanceForEdit(pet, null, listener);
@@ -67,19 +69,21 @@ public class AppointmentFormBottomSheet extends BottomSheetDialogFragment {
             if (dt != null && dt.length() >= 10) {
                 binding.etAppointmentDate.setText(dt.substring(0, 10));
                 if (dt.contains("T") && dt.length() >= 16) {
-                    binding.etAppointmentTime.setText(dt.substring(11, 16));
+                    selectedTime = dt.substring(11, 16);
                 } else {
-                    binding.etAppointmentTime.setText("10:00");
+                    selectedTime = "10:00";
                 }
             } else {
                 binding.etAppointmentDate.setText(LocalDate.now().plusDays(3).toString());
-                binding.etAppointmentTime.setText("10:00");
+                selectedTime = "10:00";
             }
+            binding.etAppointmentTime.setText(DateUtils.formatTime12h(selectedTime));
         } else {
             binding.tvAppointmentFormTitle.setText("Registrar Cita Médica 📅");
             binding.btnSaveAppointment.setText("✓  Guardar Cita Médica");
             binding.etAppointmentDate.setText(LocalDate.now().plusDays(3).toString());
-            binding.etAppointmentTime.setText("10:00");
+            selectedTime = "10:00";
+            binding.etAppointmentTime.setText(DateUtils.formatTime12h(selectedTime));
         }
 
         binding.etAppointmentDate.setOnClickListener(v -> {
@@ -96,14 +100,26 @@ public class AppointmentFormBottomSheet extends BottomSheetDialogFragment {
         });
 
         binding.etAppointmentTime.setOnClickListener(v -> {
+            int initialHour = 10;
+            int initialMinute = 0;
+            if (selectedTime != null && selectedTime.contains(":")) {
+                try {
+                    String[] parts = selectedTime.split(":");
+                    initialHour = Integer.parseInt(parts[0].trim());
+                    initialMinute = Integer.parseInt(parts[1].trim());
+                } catch (Exception ignored) {
+                }
+            }
+
             new TimePickerDialog(
                     requireContext(),
-                    (tp, hourOfDay, minute) -> binding.etAppointmentTime.setText(
-                            String.format(Locale.US, "%02d:%02d", hourOfDay, minute)
-                    ),
-                    10,
-                    0,
-                    true
+                    (tp, hourOfDay, minute) -> {
+                        selectedTime = String.format(Locale.US, "%02d:%02d", hourOfDay, minute);
+                        binding.etAppointmentTime.setText(DateUtils.formatTime12h(selectedTime));
+                    },
+                    initialHour,
+                    initialMinute,
+                    false
             ).show();
         });
 
@@ -115,7 +131,6 @@ public class AppointmentFormBottomSheet extends BottomSheetDialogFragment {
         String clinic = binding.etAppointmentClinic.getText().toString().trim();
         String vetName = binding.etAppointmentVetName.getText().toString().trim();
         String date = binding.etAppointmentDate.getText().toString().trim();
-        String time = binding.etAppointmentTime.getText().toString().trim();
 
         if (reason.isEmpty()) {
             binding.etAppointmentReason.setError("Ingresa el motivo de la cita");
@@ -126,7 +141,7 @@ public class AppointmentFormBottomSheet extends BottomSheetDialogFragment {
             return;
         }
 
-        String isoDateTime = date + "T" + time + ":00";
+        String isoDateTime = date + "T" + selectedTime + ":00";
         boolean completed = editingRecord != null && editingRecord.isCompleted();
         AppointmentRequest req = new AppointmentRequest(clinic, vetName, reason, isoDateTime, "", completed);
         binding.btnSaveAppointment.setEnabled(false);
