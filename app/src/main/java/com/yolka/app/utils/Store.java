@@ -178,7 +178,7 @@ public class Store {
     // --- Preferencias Locales de Sesión ---
 
     public void setDarkMode(boolean darkMode) {
-        prefs.edit().putBoolean(KEY_DARK_MODE, darkMode).apply();
+        prefs.edit().putBoolean(KEY_DARK_MODE, darkMode).commit();
     }
 
     public boolean isDarkMode() {

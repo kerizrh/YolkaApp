@@ -87,14 +87,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, ProfileSettingsActivity.class));
         };
         headerBinding.cardDrawerProfile.setOnClickListener(openProfileListener);
-        headerBinding.btnDrawerOpenProfile.setOnClickListener(openProfileListener);
-
-        headerBinding.switchDrawerDarkMode.setChecked(ThemeManager.getInstance().isDarkMode());
-        headerBinding.switchDrawerDarkMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked != ThemeManager.getInstance().isDarkMode()) {
-                ThemeManager.getInstance().setDarkMode(isChecked, true);
-            }
-        });
 
         // Al presionar el avatar superior derecho se despliega el sidebar lateral derecho
         binding.cardTopUserAvatar.setOnClickListener(v ->

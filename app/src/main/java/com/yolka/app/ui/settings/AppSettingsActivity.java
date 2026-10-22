@@ -32,6 +32,7 @@ import com.yolka.app.utils.SyncQueueManager;
 public class AppSettingsActivity extends AppCompatActivity {
 
     private ActivityAppSettingsBinding binding;
+    private boolean isUpdatingSwitch = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,9 @@ public class AppSettingsActivity extends AppCompatActivity {
     }
 
     private void loadSettingsState() {
+        isUpdatingSwitch = true;
         binding.switchAppDarkMode.setChecked(ThemeManager.getInstance().isDarkMode());
+        isUpdatingSwitch = false;
 
         String lang = TranslationManager.getInstance().getLanguage();
         if ("en".equalsIgnoreCase(lang)) {
@@ -69,8 +72,14 @@ public class AppSettingsActivity extends AppCompatActivity {
 
     private void setupListeners() {
         binding.switchAppDarkMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isUpdatingSwitch) {
+                return;
+            }
             if (isChecked != ThemeManager.getInstance().isDarkMode()) {
                 ThemeManager.getInstance().setDarkMode(isChecked, true);
+                Toast.makeText(this,
+                        isChecked ? "Modo oscuro activado" : "Modo claro activado",
+                        Toast.LENGTH_SHORT).show();
             }
         });
 

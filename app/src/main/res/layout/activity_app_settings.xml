@@ -78,10 +78,12 @@
                         android:id="@+id/switchAppDarkMode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:saveEnabled="false"
                         android:text="Tema Oscuro (Noche Ciruela)"
                         android:textColor="@color/yolka_text_primary"
                         android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        app:thumbTint="@color/yolka_primary_deep" />
 
                     <View
                         android:layout_width="match_parent"

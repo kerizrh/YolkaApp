@@ -1,5 +1,6 @@
 package com.yolka.app.context;
 
+import android.os.Looper;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -47,7 +48,11 @@ public class ThemeManager {
 
     public void setDarkMode(boolean enabled, boolean syncRemote) {
         Store.getInstance().setDarkMode(enabled);
-        darkModeLiveData.postValue(enabled);
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            darkModeLiveData.setValue(enabled);
+        } else {
+            darkModeLiveData.postValue(enabled);
+        }
         AppCompatDelegate.setDefaultNightMode(
                 enabled ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO
         );
