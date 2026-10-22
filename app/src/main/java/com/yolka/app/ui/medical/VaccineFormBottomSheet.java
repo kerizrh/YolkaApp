@@ -34,11 +34,17 @@ public class VaccineFormBottomSheet extends BottomSheetDialogFragment {
 
     private BottomSheetVaccineFormBinding binding;
     private Pet pet;
+    private Pet.VaccineRecord editingRecord;
     private OnPetUpdatedListener listener;
 
     public static VaccineFormBottomSheet newInstance(Pet pet, OnPetUpdatedListener listener) {
+        return newInstanceForEdit(pet, null, listener);
+    }
+
+    public static VaccineFormBottomSheet newInstanceForEdit(Pet pet, Pet.VaccineRecord record, OnPetUpdatedListener listener) {
         VaccineFormBottomSheet sheet = new VaccineFormBottomSheet();
         sheet.pet = pet;
+        sheet.editingRecord = record;
         sheet.listener = listener;
         return sheet;
     }
@@ -54,10 +60,21 @@ public class VaccineFormBottomSheet extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        String today = LocalDate.now().toString();
-        String nextYear = LocalDate.now().plusYears(1).toString();
-        binding.etVaccineAppliedDate.setText(today);
-        binding.etVaccineNextDueDate.setText(nextYear);
+        if (editingRecord != null) {
+            binding.tvVaccineFormTitle.setText("Editar Vacuna 💉");
+            binding.btnSaveVaccine.setText("✓  Actualizar Vacuna");
+            binding.etVaccineName.setText(editingRecord.getVaccineName());
+            binding.etVaccineAppliedDate.setText(editingRecord.getApplicationDate());
+            binding.etVaccineNextDueDate.setText(editingRecord.getNextDueDate());
+            binding.etVaccineNotes.setText(editingRecord.getNotes());
+        } else {
+            binding.tvVaccineFormTitle.setText("Registrar Vacuna 💉");
+            binding.btnSaveVaccine.setText("✓  Guardar Vacuna");
+            String today = LocalDate.now().toString();
+            String nextYear = LocalDate.now().plusYears(1).toString();
+            binding.etVaccineAppliedDate.setText(today);
+            binding.etVaccineNextDueDate.setText(nextYear);
+        }
 
         binding.etVaccineAppliedDate.setOnClickListener(v -> pickDate(binding.etVaccineAppliedDate));
         binding.etVaccineNextDueDate.setOnClickListener(v -> pickDate(binding.etVaccineNextDueDate));
@@ -97,11 +114,23 @@ public class VaccineFormBottomSheet extends BottomSheetDialogFragment {
             return;
         }
 
-        Api.getInstance().enqueue(Api.getInstance().getService().addVaccine(pet.getId(), req), new Api.ApiCallback<GenericResponse>() {
+        boolean isEditing = editingRecord != null && editingRecord.getId() != null;
+        retrofit2.Call<GenericResponse> call = isEditing
+                ? Api.getInstance().getService().updateVaccine(pet.getId(), editingRecord.getId(), req)
+                : Api.getInstance().getService().addVaccine(pet.getId(), req);
+
+        Api.getInstance().enqueue(call, new Api.ApiCallback<GenericResponse>() {
             @Override
             public void onSuccess(GenericResponse result) {
                 if (!isAdded()) return;
                 Pet updated = result.pet != null ? result.pet : pet;
+                if (result.pet == null && isEditing) {
+                    editingRecord.setVaccineName(req.vaccineName);
+                    editingRecord.setApplicationDate(req.applicationDate);
+                    editingRecord.setNextDueDate(req.nextDueDate);
+                    editingRecord.setNotes(req.notes);
+                    updated = pet;
+                }
                 Store.getInstance().upsertCachedPet(updated);
                 if (listener != null) listener.onPetUpdated(updated);
                 dismissAllowingStateLoss();
@@ -121,18 +150,30 @@ public class VaccineFormBottomSheet extends BottomSheetDialogFragment {
     }
 
     private void saveOffline(VaccineRequest req) {
-        Pet.VaccineRecord rec = new Pet.VaccineRecord();
-        rec.setId(UUID.randomUUID().toString());
-        rec.setVaccineName(req.vaccineName);
-        rec.setApplicationDate(req.applicationDate);
-        rec.setNextDueDate(req.nextDueDate);
-        rec.setNotes(req.notes);
-        pet.getVaccines().add(0, rec);
-        pet.setPendingSync(true);
+        if (editingRecord != null) {
+            editingRecord.setVaccineName(req.vaccineName);
+            editingRecord.setApplicationDate(req.applicationDate);
+            editingRecord.setNextDueDate(req.nextDueDate);
+            editingRecord.setNotes(req.notes);
+            pet.setPendingSync(true);
 
-        Store.getInstance().upsertCachedPet(pet);
-        SyncQueueManager.getInstance().enqueue(SyncQueueManager.OP_ADD_VACCINE, pet.getId(), null, req);
-        Toast.makeText(requireContext(), "Vacuna guardada offline. Se sincronizará al reconectar.", Toast.LENGTH_SHORT).show();
+            Store.getInstance().upsertCachedPet(pet);
+            SyncQueueManager.getInstance().enqueue(SyncQueueManager.OP_UPDATE_VACCINE, pet.getId(), editingRecord.getId(), req);
+            Toast.makeText(requireContext(), "Vacuna actualizada offline.", Toast.LENGTH_SHORT).show();
+        } else {
+            Pet.VaccineRecord rec = new Pet.VaccineRecord();
+            rec.setId(UUID.randomUUID().toString());
+            rec.setVaccineName(req.vaccineName);
+            rec.setApplicationDate(req.applicationDate);
+            rec.setNextDueDate(req.nextDueDate);
+            rec.setNotes(req.notes);
+            pet.getVaccines().add(0, rec);
+            pet.setPendingSync(true);
+
+            Store.getInstance().upsertCachedPet(pet);
+            SyncQueueManager.getInstance().enqueue(SyncQueueManager.OP_ADD_VACCINE, pet.getId(), null, req);
+            Toast.makeText(requireContext(), "Vacuna guardada offline. Se sincronizará al reconectar.", Toast.LENGTH_SHORT).show();
+        }
         if (listener != null) listener.onPetUpdated(pet);
         dismissAllowingStateLoss();
     }

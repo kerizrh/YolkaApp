@@ -30,11 +30,17 @@ public class AppointmentFormBottomSheet extends BottomSheetDialogFragment {
 
     private BottomSheetAppointmentFormBinding binding;
     private Pet pet;
+    private Pet.AppointmentRecord editingRecord;
     private VaccineFormBottomSheet.OnPetUpdatedListener listener;
 
     public static AppointmentFormBottomSheet newInstance(Pet pet, VaccineFormBottomSheet.OnPetUpdatedListener listener) {
+        return newInstanceForEdit(pet, null, listener);
+    }
+
+    public static AppointmentFormBottomSheet newInstanceForEdit(Pet pet, Pet.AppointmentRecord record, VaccineFormBottomSheet.OnPetUpdatedListener listener) {
         AppointmentFormBottomSheet sheet = new AppointmentFormBottomSheet();
         sheet.pet = pet;
+        sheet.editingRecord = record;
         sheet.listener = listener;
         return sheet;
     }
@@ -50,8 +56,31 @@ public class AppointmentFormBottomSheet extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.etAppointmentDate.setText(LocalDate.now().plusDays(3).toString());
-        binding.etAppointmentTime.setText("10:00");
+        if (editingRecord != null) {
+            binding.tvAppointmentFormTitle.setText("Editar Cita Médica 📅");
+            binding.btnSaveAppointment.setText("✓  Actualizar Cita Médica");
+            binding.etAppointmentReason.setText(editingRecord.getReason());
+            binding.etAppointmentClinic.setText(editingRecord.getClinicName());
+            binding.etAppointmentVetName.setText(editingRecord.getVeterinarianName());
+
+            String dt = editingRecord.getDateTime();
+            if (dt != null && dt.length() >= 10) {
+                binding.etAppointmentDate.setText(dt.substring(0, 10));
+                if (dt.contains("T") && dt.length() >= 16) {
+                    binding.etAppointmentTime.setText(dt.substring(11, 16));
+                } else {
+                    binding.etAppointmentTime.setText("10:00");
+                }
+            } else {
+                binding.etAppointmentDate.setText(LocalDate.now().plusDays(3).toString());
+                binding.etAppointmentTime.setText("10:00");
+            }
+        } else {
+            binding.tvAppointmentFormTitle.setText("Registrar Cita Médica 📅");
+            binding.btnSaveAppointment.setText("✓  Guardar Cita Médica");
+            binding.etAppointmentDate.setText(LocalDate.now().plusDays(3).toString());
+            binding.etAppointmentTime.setText("10:00");
+        }
 
         binding.etAppointmentDate.setOnClickListener(v -> {
             Calendar cal = Calendar.getInstance();
@@ -98,7 +127,8 @@ public class AppointmentFormBottomSheet extends BottomSheetDialogFragment {
         }
 
         String isoDateTime = date + "T" + time + ":00";
-        AppointmentRequest req = new AppointmentRequest(clinic, vetName, reason, isoDateTime, "", false);
+        boolean completed = editingRecord != null && editingRecord.isCompleted();
+        AppointmentRequest req = new AppointmentRequest(clinic, vetName, reason, isoDateTime, "", completed);
         binding.btnSaveAppointment.setEnabled(false);
 
         if (!NetworkMonitor.getInstance().isOnline()) {
@@ -106,11 +136,24 @@ public class AppointmentFormBottomSheet extends BottomSheetDialogFragment {
             return;
         }
 
-        Api.getInstance().enqueue(Api.getInstance().getService().addAppointment(pet.getId(), req), new Api.ApiCallback<GenericResponse>() {
+        boolean isEditing = editingRecord != null && editingRecord.getId() != null;
+        retrofit2.Call<GenericResponse> call = isEditing
+                ? Api.getInstance().getService().updateAppointment(pet.getId(), editingRecord.getId(), req)
+                : Api.getInstance().getService().addAppointment(pet.getId(), req);
+
+        Api.getInstance().enqueue(call, new Api.ApiCallback<GenericResponse>() {
             @Override
             public void onSuccess(GenericResponse result) {
                 if (!isAdded()) return;
                 Pet updated = result.pet != null ? result.pet : pet;
+                if (result.pet == null && isEditing) {
+                    editingRecord.setClinicName(req.clinicName);
+                    editingRecord.setVeterinarianName(req.veterinarianName);
+                    editingRecord.setReason(req.reason);
+                    editingRecord.setDateTime(req.dateTime);
+                    editingRecord.setCompleted(req.completed != null && req.completed);
+                    updated = pet;
+                }
                 Store.getInstance().upsertCachedPet(updated);
                 if (listener != null) listener.onPetUpdated(updated);
                 dismissAllowingStateLoss();
@@ -130,19 +173,32 @@ public class AppointmentFormBottomSheet extends BottomSheetDialogFragment {
     }
 
     private void saveOffline(AppointmentRequest req) {
-        Pet.AppointmentRecord rec = new Pet.AppointmentRecord();
-        rec.setId(UUID.randomUUID().toString());
-        rec.setClinicName(req.clinicName);
-        rec.setVeterinarianName(req.veterinarianName);
-        rec.setReason(req.reason);
-        rec.setDateTime(req.dateTime);
-        rec.setCompleted(false);
-        pet.getAppointments().add(0, rec);
-        pet.setPendingSync(true);
+        if (editingRecord != null) {
+            editingRecord.setClinicName(req.clinicName);
+            editingRecord.setVeterinarianName(req.veterinarianName);
+            editingRecord.setReason(req.reason);
+            editingRecord.setDateTime(req.dateTime);
+            editingRecord.setCompleted(req.completed != null && req.completed);
+            pet.setPendingSync(true);
 
-        Store.getInstance().upsertCachedPet(pet);
-        SyncQueueManager.getInstance().enqueue(SyncQueueManager.OP_ADD_APPOINTMENT, pet.getId(), null, req);
-        Toast.makeText(requireContext(), "Cita guardada offline.", Toast.LENGTH_SHORT).show();
+            Store.getInstance().upsertCachedPet(pet);
+            SyncQueueManager.getInstance().enqueue(SyncQueueManager.OP_UPDATE_APPOINTMENT, pet.getId(), editingRecord.getId(), req);
+            Toast.makeText(requireContext(), "Cita actualizada offline.", Toast.LENGTH_SHORT).show();
+        } else {
+            Pet.AppointmentRecord rec = new Pet.AppointmentRecord();
+            rec.setId(UUID.randomUUID().toString());
+            rec.setClinicName(req.clinicName);
+            rec.setVeterinarianName(req.veterinarianName);
+            rec.setReason(req.reason);
+            rec.setDateTime(req.dateTime);
+            rec.setCompleted(false);
+            pet.getAppointments().add(0, rec);
+            pet.setPendingSync(true);
+
+            Store.getInstance().upsertCachedPet(pet);
+            SyncQueueManager.getInstance().enqueue(SyncQueueManager.OP_ADD_APPOINTMENT, pet.getId(), null, req);
+            Toast.makeText(requireContext(), "Cita guardada offline.", Toast.LENGTH_SHORT).show();
+        }
         if (listener != null) listener.onPetUpdated(pet);
         dismissAllowingStateLoss();
     }

@@ -4,6 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
     app:cardBackgroundColor="@color/yolka_surface_variant"
     app:cardCornerRadius="20dp"
     app:cardElevation="0dp"
@@ -56,19 +59,34 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tvAppointmentBadge"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_rounded_card"
-                    android:paddingStart="8dp"
-                    android:paddingTop="2dp"
-                    android:paddingEnd="8dp"
-                    android:paddingBottom="2dp"
-                    android:text="Revisión Periódica"
-                    android:textColor="@color/yolka_primary_deep"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvAppointmentBadge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_rounded_card"
+                        android:paddingStart="8dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="2dp"
+                        android:text="Revisión Periódica"
+                        android:textColor="@color/yolka_primary_deep"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="✎"
+                        android:textColor="@color/yolka_primary_deep"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/tvAppointmentReason"

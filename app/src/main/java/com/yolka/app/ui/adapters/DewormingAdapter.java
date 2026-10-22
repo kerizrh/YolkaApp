@@ -15,7 +15,16 @@ import java.util.List;
 
 public class DewormingAdapter extends RecyclerView.Adapter<DewormingAdapter.DewormingViewHolder> {
 
+    public interface OnDewormingClickListener {
+        void onDewormingClick(DewormingRecord deworming);
+    }
+
     private final List<DewormingRecord> dewormings = new ArrayList<>();
+    private OnDewormingClickListener listener;
+
+    public void setOnDewormingClickListener(OnDewormingClickListener listener) {
+        this.listener = listener;
+    }
 
     public void submitList(List<DewormingRecord> list) {
         dewormings.clear();
@@ -40,7 +49,11 @@ public class DewormingAdapter extends RecyclerView.Adapter<DewormingAdapter.Dewo
 
     @Override
     public void onBindViewHolder(@NonNull DewormingViewHolder holder, int position) {
-        holder.bind(dewormings.get(position));
+        DewormingRecord record = dewormings.get(position);
+        holder.bind(record);
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) listener.onDewormingClick(record);
+        });
     }
 
     @Override

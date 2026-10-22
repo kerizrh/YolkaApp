@@ -32,8 +32,11 @@ public class SyncQueueManager {
     public static final String OP_UPDATE_PET = "UPDATE_PET";
     public static final String OP_DELETE_PET = "DELETE_PET";
     public static final String OP_ADD_VACCINE = "ADD_VACCINE";
+    public static final String OP_UPDATE_VACCINE = "UPDATE_VACCINE";
     public static final String OP_ADD_DEWORMING = "ADD_DEWORMING";
+    public static final String OP_UPDATE_DEWORMING = "UPDATE_DEWORMING";
     public static final String OP_ADD_APPOINTMENT = "ADD_APPOINTMENT";
+    public static final String OP_UPDATE_APPOINTMENT = "UPDATE_APPOINTMENT";
     public static final String OP_ADD_ROUTINE = "ADD_ROUTINE";
     public static final String OP_ADD_REMINDER = "ADD_REMINDER";
     public static final String OP_TOGGLE_REMINDER = "TOGGLE_REMINDER";
@@ -170,6 +173,15 @@ public class SyncQueueManager {
                                 }
                                 break;
                             }
+                            case OP_UPDATE_VACCINE: {
+                                VaccineRequest req = gson.fromJson(item.payloadJson, VaccineRequest.class);
+                                Response<GenericResponse> resp = api.updateVaccine(resolvedTargetId, item.subTargetId, req).execute();
+                                if (resp.isSuccessful() && resp.body() != null && resp.body().pet != null) {
+                                    Store.getInstance().upsertCachedPet(resp.body().pet);
+                                    success = true;
+                                }
+                                break;
+                            }
                             case OP_ADD_DEWORMING: {
                                 DewormingRequest req = gson.fromJson(item.payloadJson, DewormingRequest.class);
                                 Response<GenericResponse> resp = api.addDeworming(resolvedTargetId, req).execute();
@@ -179,9 +191,27 @@ public class SyncQueueManager {
                                 }
                                 break;
                             }
+                            case OP_UPDATE_DEWORMING: {
+                                DewormingRequest req = gson.fromJson(item.payloadJson, DewormingRequest.class);
+                                Response<GenericResponse> resp = api.updateDeworming(resolvedTargetId, item.subTargetId, req).execute();
+                                if (resp.isSuccessful() && resp.body() != null && resp.body().pet != null) {
+                                    Store.getInstance().upsertCachedPet(resp.body().pet);
+                                    success = true;
+                                }
+                                break;
+                            }
                             case OP_ADD_APPOINTMENT: {
                                 AppointmentRequest req = gson.fromJson(item.payloadJson, AppointmentRequest.class);
                                 Response<GenericResponse> resp = api.addAppointment(resolvedTargetId, req).execute();
+                                if (resp.isSuccessful() && resp.body() != null && resp.body().pet != null) {
+                                    Store.getInstance().upsertCachedPet(resp.body().pet);
+                                    success = true;
+                                }
+                                break;
+                            }
+                            case OP_UPDATE_APPOINTMENT: {
+                                AppointmentRequest req = gson.fromJson(item.payloadJson, AppointmentRequest.class);
+                                Response<GenericResponse> resp = api.updateAppointment(resolvedTargetId, item.subTargetId, req).execute();
                                 if (resp.isSuccessful() && resp.body() != null && resp.body().pet != null) {
                                     Store.getInstance().upsertCachedPet(resp.body().pet);
                                     success = true;

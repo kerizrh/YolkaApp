@@ -32,12 +32,18 @@ public class DewormingFormBottomSheet extends BottomSheetDialogFragment {
 
     private BottomSheetDewormingFormBinding binding;
     private Pet pet;
+    private Pet.DewormingRecord editingRecord;
     private VaccineFormBottomSheet.OnPetUpdatedListener listener;
     private String selectedType = "INTERNAL";
 
     public static DewormingFormBottomSheet newInstance(Pet pet, VaccineFormBottomSheet.OnPetUpdatedListener listener) {
+        return newInstanceForEdit(pet, null, listener);
+    }
+
+    public static DewormingFormBottomSheet newInstanceForEdit(Pet pet, Pet.DewormingRecord record, VaccineFormBottomSheet.OnPetUpdatedListener listener) {
         DewormingFormBottomSheet sheet = new DewormingFormBottomSheet();
         sheet.pet = pet;
+        sheet.editingRecord = record;
         sheet.listener = listener;
         return sheet;
     }
@@ -53,8 +59,22 @@ public class DewormingFormBottomSheet extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.etDewormAppliedDate.setText(LocalDate.now().toString());
-        binding.etDewormNextDate.setText(LocalDate.now().plusMonths(1).toString());
+        if (editingRecord != null) {
+            binding.tvDewormingFormTitle.setText("Editar Desparasitación 🛡️");
+            binding.btnSaveDeworming.setText("✓  Actualizar Desparasitación");
+            selectedType = editingRecord.getType() != null ? editingRecord.getType().toUpperCase() : "INTERNAL";
+            binding.etDewormProduct.setText(editingRecord.getProductName());
+            binding.etDewormAppliedDate.setText(editingRecord.getApplicationDate());
+            binding.etDewormNextDate.setText(editingRecord.getNextDueDate());
+            binding.etDewormNotes.setText(editingRecord.getNotes());
+        } else {
+            binding.tvDewormingFormTitle.setText("Registrar Desparasitación 🛡️");
+            binding.btnSaveDeworming.setText("✓  Guardar Desparasitación");
+            binding.etDewormAppliedDate.setText(LocalDate.now().toString());
+            binding.etDewormNextDate.setText(LocalDate.now().plusMonths(1).toString());
+        }
+
+        selectType(selectedType);
 
         binding.btnDewormInternal.setOnClickListener(v -> selectType("INTERNAL"));
         binding.btnDewormExternal.setOnClickListener(v -> selectType("EXTERNAL"));
@@ -109,11 +129,24 @@ public class DewormingFormBottomSheet extends BottomSheetDialogFragment {
             return;
         }
 
-        Api.getInstance().enqueue(Api.getInstance().getService().addDeworming(pet.getId(), req), new Api.ApiCallback<GenericResponse>() {
+        boolean isEditing = editingRecord != null && editingRecord.getId() != null;
+        retrofit2.Call<GenericResponse> call = isEditing
+                ? Api.getInstance().getService().updateDeworming(pet.getId(), editingRecord.getId(), req)
+                : Api.getInstance().getService().addDeworming(pet.getId(), req);
+
+        Api.getInstance().enqueue(call, new Api.ApiCallback<GenericResponse>() {
             @Override
             public void onSuccess(GenericResponse result) {
                 if (!isAdded()) return;
                 Pet updated = result.pet != null ? result.pet : pet;
+                if (result.pet == null && isEditing) {
+                    editingRecord.setType(req.type);
+                    editingRecord.setProductName(req.productName);
+                    editingRecord.setApplicationDate(req.applicationDate);
+                    editingRecord.setNextDueDate(req.nextDueDate);
+                    editingRecord.setNotes(req.notes);
+                    updated = pet;
+                }
                 Store.getInstance().upsertCachedPet(updated);
                 if (listener != null) listener.onPetUpdated(updated);
                 dismissAllowingStateLoss();
@@ -133,19 +166,32 @@ public class DewormingFormBottomSheet extends BottomSheetDialogFragment {
     }
 
     private void saveOffline(DewormingRequest req) {
-        Pet.DewormingRecord rec = new Pet.DewormingRecord();
-        rec.setId(UUID.randomUUID().toString());
-        rec.setType(req.type);
-        rec.setProductName(req.productName);
-        rec.setApplicationDate(req.applicationDate);
-        rec.setNextDueDate(req.nextDueDate);
-        rec.setNotes(req.notes);
-        pet.getDewormings().add(0, rec);
-        pet.setPendingSync(true);
+        if (editingRecord != null) {
+            editingRecord.setType(req.type);
+            editingRecord.setProductName(req.productName);
+            editingRecord.setApplicationDate(req.applicationDate);
+            editingRecord.setNextDueDate(req.nextDueDate);
+            editingRecord.setNotes(req.notes);
+            pet.setPendingSync(true);
 
-        Store.getInstance().upsertCachedPet(pet);
-        SyncQueueManager.getInstance().enqueue(SyncQueueManager.OP_ADD_DEWORMING, pet.getId(), null, req);
-        Toast.makeText(requireContext(), "Desparasitación guardada offline.", Toast.LENGTH_SHORT).show();
+            Store.getInstance().upsertCachedPet(pet);
+            SyncQueueManager.getInstance().enqueue(SyncQueueManager.OP_UPDATE_DEWORMING, pet.getId(), editingRecord.getId(), req);
+            Toast.makeText(requireContext(), "Desparasitación actualizada offline.", Toast.LENGTH_SHORT).show();
+        } else {
+            Pet.DewormingRecord rec = new Pet.DewormingRecord();
+            rec.setId(UUID.randomUUID().toString());
+            rec.setType(req.type);
+            rec.setProductName(req.productName);
+            rec.setApplicationDate(req.applicationDate);
+            rec.setNextDueDate(req.nextDueDate);
+            rec.setNotes(req.notes);
+            pet.getDewormings().add(0, rec);
+            pet.setPendingSync(true);
+
+            Store.getInstance().upsertCachedPet(pet);
+            SyncQueueManager.getInstance().enqueue(SyncQueueManager.OP_ADD_DEWORMING, pet.getId(), null, req);
+            Toast.makeText(requireContext(), "Desparasitación guardada offline.", Toast.LENGTH_SHORT).show();
+        }
         if (listener != null) listener.onPetUpdated(pet);
         dismissAllowingStateLoss();
     }

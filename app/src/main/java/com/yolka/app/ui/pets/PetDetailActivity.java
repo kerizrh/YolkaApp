@@ -56,6 +56,30 @@ public class PetDetailActivity extends AppCompatActivity {
 
         binding.rvClinicalRecords.setLayoutManager(new LinearLayoutManager(this));
 
+        vaccineAdapter.setOnVaccineClickListener(vaccine -> {
+            VaccineFormBottomSheet.newInstanceForEdit(currentPet, vaccine, updatedPet -> {
+                currentPet = updatedPet;
+                renderPetHeader();
+                switchClinicalTab(activeTabIndex);
+            }).show(getSupportFragmentManager(), "EditVaccineSheet");
+        });
+
+        dewormingAdapter.setOnDewormingClickListener(deworming -> {
+            DewormingFormBottomSheet.newInstanceForEdit(currentPet, deworming, updatedPet -> {
+                currentPet = updatedPet;
+                renderPetHeader();
+                switchClinicalTab(activeTabIndex);
+            }).show(getSupportFragmentManager(), "EditDewormingSheet");
+        });
+
+        appointmentAdapter.setOnAppointmentClickListener(appointment -> {
+            AppointmentFormBottomSheet.newInstanceForEdit(currentPet, appointment, updatedPet -> {
+                currentPet = updatedPet;
+                renderPetHeader();
+                switchClinicalTab(activeTabIndex);
+            }).show(getSupportFragmentManager(), "EditAppointmentSheet");
+        });
+
         binding.btnBackPetDetail.setOnClickListener(v -> finish());
         binding.btnEditPetFromDetail.setOnClickListener(v -> {
             Intent intent = new Intent(this, PetFormActivity.class);
@@ -167,7 +191,7 @@ public class PetDetailActivity extends AppCompatActivity {
             binding.tvClinicalEmpty.setVisibility(dewormingAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
         } else {
             binding.tvClinicalSectionTitle.setText("Próxima Cita Veterinaria");
-            binding.btnAddClinicalRecord.setText("⊕  Registrar Evento de Salud");
+            binding.btnAddClinicalRecord.setText("⊕  Registrar Cita Médica");
             binding.rvClinicalRecords.setAdapter(appointmentAdapter);
             appointmentAdapter.submitList(currentPet.getAppointments());
             binding.tvClinicalEmpty.setVisibility(appointmentAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);

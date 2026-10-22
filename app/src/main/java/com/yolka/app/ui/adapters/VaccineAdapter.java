@@ -17,7 +17,16 @@ import java.util.List;
 
 public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.VaccineViewHolder> {
 
+    public interface OnVaccineClickListener {
+        void onVaccineClick(VaccineRecord vaccine);
+    }
+
     private final List<VaccineRecord> vaccines = new ArrayList<>();
+    private OnVaccineClickListener listener;
+
+    public void setOnVaccineClickListener(OnVaccineClickListener listener) {
+        this.listener = listener;
+    }
 
     public void submitList(List<VaccineRecord> list) {
         vaccines.clear();
@@ -42,7 +51,11 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.VaccineV
 
     @Override
     public void onBindViewHolder(@NonNull VaccineViewHolder holder, int position) {
-        holder.bind(vaccines.get(position));
+        VaccineRecord record = vaccines.get(position);
+        holder.bind(record);
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) listener.onVaccineClick(record);
+        });
     }
 
     @Override

@@ -18,7 +18,16 @@ import java.util.Locale;
 
 public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.AppointmentViewHolder> {
 
+    public interface OnAppointmentClickListener {
+        void onAppointmentClick(AppointmentRecord appointment);
+    }
+
     private final List<AppointmentRecord> appointments = new ArrayList<>();
+    private OnAppointmentClickListener listener;
+
+    public void setOnAppointmentClickListener(OnAppointmentClickListener listener) {
+        this.listener = listener;
+    }
 
     public void submitList(List<AppointmentRecord> list) {
         appointments.clear();
@@ -43,7 +52,11 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull AppointmentViewHolder holder, int position) {
-        holder.bind(appointments.get(position));
+        AppointmentRecord record = appointments.get(position);
+        holder.bind(record);
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) listener.onAppointmentClick(record);
+        });
     }
 
     @Override

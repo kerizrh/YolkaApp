@@ -62,11 +62,32 @@ public interface YolkaApiService {
     @POST("pets/{id}/vaccines")
     Call<GenericResponse> addVaccine(@Path("id") String petId, @Body VaccineRequest request);
 
+    @PUT("pets/{id}/vaccines/{vaccineId}")
+    Call<GenericResponse> updateVaccine(
+            @Path("id") String petId,
+            @Path("vaccineId") String vaccineId,
+            @Body VaccineRequest request
+    );
+
     @POST("pets/{id}/dewormings")
     Call<GenericResponse> addDeworming(@Path("id") String petId, @Body DewormingRequest request);
 
+    @PUT("pets/{id}/dewormings/{dewormingId}")
+    Call<GenericResponse> updateDeworming(
+            @Path("id") String petId,
+            @Path("dewormingId") String dewormingId,
+            @Body DewormingRequest request
+    );
+
     @POST("pets/{id}/appointments")
     Call<GenericResponse> addAppointment(@Path("id") String petId, @Body AppointmentRequest request);
+
+    @PUT("pets/{id}/appointments/{appointmentId}")
+    Call<GenericResponse> updateAppointment(
+            @Path("id") String petId,
+            @Path("appointmentId") String appointmentId,
+            @Body AppointmentRequest request
+    );
 
     @POST("pets/{id}/routines")
     Call<GenericResponse> addRoutine(@Path("id") String petId, @Body RoutineRequest request);
