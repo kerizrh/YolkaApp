@@ -21,6 +21,7 @@ import com.yolka.app.models.ApiPayloads.CreatePetRequest;
 import com.yolka.app.models.ApiPayloads.GenericResponse;
 import com.yolka.app.models.Pet;
 import com.yolka.app.models.User;
+import com.yolka.app.services.StorageClientService;
 import com.yolka.app.utils.Api;
 import com.yolka.app.utils.DateUtils;
 import com.yolka.app.utils.NetworkMonitor;
@@ -294,6 +295,26 @@ public class PetFormActivity extends AppCompatActivity {
 
         binding.btnSavePet.setEnabled(false);
 
+        if (selectedPhotoUriOrUrl != null && (selectedPhotoUriOrUrl.startsWith("content://") || selectedPhotoUriOrUrl.startsWith("file://")) && NetworkMonitor.getInstance().isOnline()) {
+            Toast.makeText(this, "Subiendo foto a Google Drive...", Toast.LENGTH_SHORT).show();
+            StorageClientService.getInstance().uploadImage(this, Uri.parse(selectedPhotoUriOrUrl), new Api.ApiCallback<String>() {
+                @Override
+                public void onSuccess(String cloudUrl) {
+                    req.photoUrl = cloudUrl;
+                    proceedWithSavingPet(req);
+                }
+
+                @Override
+                public void onError(String message, String errorCode) {
+                    proceedWithSavingPet(req);
+                }
+            });
+        } else {
+            proceedWithSavingPet(req);
+        }
+    }
+
+    private void proceedWithSavingPet(CreatePetRequest req) {
         if (editingPet == null) {
             if (!NetworkMonitor.getInstance().isOnline()) {
                 savePetOffline(req, null);

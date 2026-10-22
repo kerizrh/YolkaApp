@@ -1,10 +1,13 @@
 package com.yolka.app.ui.settings;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,6 +22,7 @@ import com.yolka.app.models.ApiPayloads.GenericResponse;
 import com.yolka.app.models.ApiPayloads.UpdateProfileRequest;
 import com.yolka.app.models.User;
 import com.yolka.app.services.BackupClientService;
+import com.yolka.app.services.StorageClientService;
 import com.yolka.app.ui.auth.LoginActivity;
 import com.yolka.app.utils.Api;
 import com.yolka.app.utils.DateUtils;
@@ -33,6 +37,15 @@ import com.yolka.app.utils.SyncQueueManager;
 public class ProfileSettingsActivity extends AppCompatActivity {
 
     private ActivityProfileSettingsBinding binding;
+
+    private final ActivityResultLauncher<String> avatarPickerLauncher = registerForActivityResult(
+            new ActivityResultContracts.GetContent(),
+            uri -> {
+                if (uri != null) {
+                    uploadAndSetAvatar(uri);
+                }
+            }
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +93,8 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             binding.cardEditProfileForm.setVisibility(current == View.VISIBLE ? View.GONE : View.VISIBLE);
         };
         binding.btnToggleEditProfile.setOnClickListener(toggleEditProfile);
-        binding.btnChangePhotoBadge.setOnClickListener(toggleEditProfile);
+        binding.btnChangePhotoBadge.setOnClickListener(v -> avatarPickerLauncher.launch("image/*"));
+        binding.ivProfileAvatar.setOnClickListener(v -> avatarPickerLauncher.launch("image/*"));
 
         binding.btnSaveProfile.setOnClickListener(v -> saveProfileChanges());
 
@@ -148,6 +162,37 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+    private void uploadAndSetAvatar(Uri uri) {
+        Glide.with(this)
+                .load(uri)
+                .circleCrop()
+                .into(binding.ivProfileAvatar);
+
+        Toast.makeText(this, "Subiendo foto a Google Drive...", Toast.LENGTH_SHORT).show();
+        StorageClientService.getInstance().uploadImage(this, uri, new Api.ApiCallback<String>() {
+            @Override
+            public void onSuccess(String cloudUrl) {
+                binding.etEditPhotoUrl.setText(cloudUrl);
+                User user = UserManager.getInstance().getCurrentUser();
+                if (user != null) {
+                    user.setPhotoUrl(cloudUrl);
+                    UserManager.getInstance().setUser(user);
+                    UpdateProfileRequest req = new UpdateProfileRequest(user.getFullName(), user.getPhone(), cloudUrl, user.getPreferences());
+                    Api.getInstance().enqueue(
+                            Api.getInstance().getService().updateUserProfile(user.getId(), req),
+                            null
+                    );
+                }
+                Toast.makeText(ProfileSettingsActivity.this, "Foto de perfil actualizada en Google Drive 🐾", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(String message, String errorCode) {
+                Toast.makeText(ProfileSettingsActivity.this, "Error subiendo foto: " + message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void submitPasswordChange() {

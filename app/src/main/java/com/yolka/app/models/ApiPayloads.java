@@ -118,6 +118,11 @@ public class ApiPayloads {
         public List<NotificationItem> notifications;
         public NotificationItem notification;
         public BackupInfo backupInfo;
+        public String url;
+        public String fileId;
+        public String fileName;
+        public Long fileSize;
+        public String storageProvider;
         public Map<String, Object> data;
     }
 
@@ -128,6 +133,8 @@ public class ApiPayloads {
         public String fileName;
         public long fileSize;
         public String type;
+        public String driveFileId;
+        public String driveWebViewLink;
         public String createdAt;
         public String updatedAt;
     }

@@ -2,11 +2,14 @@ package com.yolka.app.utils;
 
 import com.yolka.app.models.ApiPayloads.*;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
+import retrofit2.http.Part;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -132,6 +135,11 @@ public interface YolkaApiService {
 
     @DELETE("users/{id}")
     Call<GenericResponse> deleteAccount(@Path("id") String userId);
+
+    // Módulo Almacenamiento / Fotos
+    @Multipart
+    @POST("storage/upload")
+    Call<GenericResponse> uploadFile(@Part MultipartBody.Part file);
 
     @POST("backups")
     Call<GenericResponse> createCloudBackup(@Query("userId") String userId);
