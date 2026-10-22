@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    app:cardBackgroundColor="@color/yolka_card_surface"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/yolka_stroke"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="14dp">
+
+        <!-- Icon Badge -->
+        <FrameLayout
+            android:id="@+id/containerIconBadge"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_gravity="top"
+            android:background="@drawable/bg_pill_input">
+
+            <TextView
+                android:id="@+id/tvNotificationEmoji"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="🔔"
+                android:textSize="20sp" />
+        </FrameLayout>
+
+        <!-- Content -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Meta Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvNotificationCategoryBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_pill_badge"
+                    android:paddingStart="8dp"
+                    android:paddingTop="2dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="2dp"
+                    android:text="Alerta"
+                    android:textColor="@color/yolka_primary_deep"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvNotificationTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="Hace un momento"
+                    android:textColor="@color/yolka_text_secondary"
+                    android:textSize="11sp" />
+
+                <!-- Unread indicator dot -->
+                <View
+                    android:id="@+id/viewUnreadDot"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/bg_unread_dot" />
+            </LinearLayout>
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/tvNotificationTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Título de la Notificación"
+                android:textColor="@color/yolka_text_primary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <!-- Body -->
+            <TextView
+                android:id="@+id/tvNotificationBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:lineSpacingExtra="2dp"
+                android:text="Descripción detallada del recordatorio o alerta recibida para tu mascota."
+                android:textColor="@color/yolka_text_secondary"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

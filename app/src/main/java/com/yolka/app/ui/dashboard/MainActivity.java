@@ -20,6 +20,7 @@ import com.yolka.app.models.Pet;
 import com.yolka.app.ui.auth.LoginActivity;
 import com.yolka.app.ui.map.VetMapFragment;
 import com.yolka.app.ui.notifications.NotificationsActivity;
+import com.yolka.app.ui.notifications.ReceivedNotificationsActivity;
 import com.yolka.app.ui.pets.PetDetailActivity;
 import com.yolka.app.ui.pets.PetsListFragment;
 import com.yolka.app.ui.routines.RoutinesFragment;
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         );
 
         binding.btnTopNotifications.setOnClickListener(v ->
-                startActivity(new Intent(MainActivity.this, NotificationsActivity.class))
+                startActivity(new Intent(MainActivity.this, ReceivedNotificationsActivity.class))
         );
 
         binding.navigationView.setNavigationItemSelectedListener(item -> {

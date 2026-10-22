@@ -13,6 +13,7 @@ import com.google.gson.reflect.TypeToken;
 import com.yolka.app.BuildConfig;
 import com.yolka.app.models.NotificationItem;
 import com.yolka.app.models.Pet;
+import com.yolka.app.models.ReceivedNotification;
 import com.yolka.app.models.Tip;
 import com.yolka.app.models.User;
 import com.yolka.app.models.VetClinic;
@@ -53,6 +54,7 @@ public class Store {
     private static final String KEY_CACHED_VETS = "cached_vets_json";
     private static final String KEY_CACHED_TIPS = "cached_tips_json";
     private static final String KEY_CACHED_NOTIFICATIONS = "cached_notifications_json";
+    private static final String KEY_RECEIVED_NOTIFICATIONS = "received_notifications_history_json";
     private static final String KEY_PENDING_SYNC_QUEUE = "pending_sync_queue_json";
 
     private static volatile Store instance;
@@ -317,6 +319,70 @@ public class Store {
         } catch (Exception e) {
             return new ArrayList<>();
         }
+    }
+
+    // --- Historial de Notificaciones Recibidas ---
+
+    public synchronized void addReceivedNotification(ReceivedNotification notification) {
+        if (notification == null) return;
+        List<ReceivedNotification> list = getReceivedNotifications();
+        list.add(0, notification);
+        if (list.size() > 50) {
+            list = new ArrayList<>(list.subList(0, 50));
+        }
+        String json = gson.toJson(list);
+        prefs.edit().putString(KEY_RECEIVED_NOTIFICATIONS, encryptAes(json)).apply();
+    }
+
+    public synchronized List<ReceivedNotification> getReceivedNotifications() {
+        String raw = prefs.getString(KEY_RECEIVED_NOTIFICATIONS, null);
+        if (raw == null || raw.isBlank()) return new ArrayList<>();
+        try {
+            Type type = new TypeToken<List<ReceivedNotification>>() {}.getType();
+            List<ReceivedNotification> list = gson.fromJson(decryptAes(raw), type);
+            return list != null ? list : new ArrayList<>();
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public synchronized void markNotificationAsRead(String id) {
+        if (id == null) return;
+        List<ReceivedNotification> list = getReceivedNotifications();
+        boolean changed = false;
+        for (ReceivedNotification n : list) {
+            if (id.equals(n.getId())) {
+                n.setRead(true);
+                changed = true;
+                break;
+            }
+        }
+        if (changed) {
+            String json = gson.toJson(list);
+            prefs.edit().putString(KEY_RECEIVED_NOTIFICATIONS, encryptAes(json)).apply();
+        }
+    }
+
+    public synchronized void markAllNotificationsAsRead() {
+        List<ReceivedNotification> list = getReceivedNotifications();
+        for (ReceivedNotification n : list) {
+            n.setRead(true);
+        }
+        String json = gson.toJson(list);
+        prefs.edit().putString(KEY_RECEIVED_NOTIFICATIONS, encryptAes(json)).apply();
+    }
+
+    public synchronized void clearReceivedNotifications() {
+        prefs.edit().remove(KEY_RECEIVED_NOTIFICATIONS).apply();
+    }
+
+    public synchronized int getUnreadNotificationsCount() {
+        List<ReceivedNotification> list = getReceivedNotifications();
+        int count = 0;
+        for (ReceivedNotification n : list) {
+            if (!n.isRead()) count++;
+        }
+        return count;
     }
 
     // --- Cola de Sincronización Offline (SyncQueueItem) ---

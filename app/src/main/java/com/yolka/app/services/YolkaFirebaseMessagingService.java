@@ -17,6 +17,7 @@ import com.yolka.app.R;
 import com.yolka.app.YolkaApplication;
 import com.yolka.app.context.UserManager;
 import com.yolka.app.models.ApiPayloads.FcmTokenRequest;
+import com.yolka.app.models.ReceivedNotification;
 import com.yolka.app.models.User;
 import com.yolka.app.ui.dashboard.MainActivity;
 import com.yolka.app.utils.Api;
@@ -68,6 +69,18 @@ public class YolkaFirebaseMessagingService extends FirebaseMessagingService {
                 body = remoteMessage.getData().get("body");
             }
         }
+
+        String category = "GENERAL";
+        String petName = "";
+        if (!remoteMessage.getData().isEmpty()) {
+            if (remoteMessage.getData().containsKey("category")) {
+                category = remoteMessage.getData().get("category");
+            }
+            if (remoteMessage.getData().containsKey("petName")) {
+                petName = remoteMessage.getData().get("petName");
+            }
+        }
+        Store.getInstance().addReceivedNotification(new ReceivedNotification(title, body, category, petName));
 
         showSystemNotification(title, body);
     }

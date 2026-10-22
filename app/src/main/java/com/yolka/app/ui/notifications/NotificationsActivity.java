@@ -18,6 +18,7 @@ import com.yolka.app.models.ApiPayloads.CreateNotificationRequest;
 import com.yolka.app.models.ApiPayloads.GenericResponse;
 import com.yolka.app.models.NotificationItem;
 import com.yolka.app.models.Pet;
+import com.yolka.app.models.ReceivedNotification;
 import com.yolka.app.models.User;
 import com.yolka.app.services.LocalReminderScheduler;
 import com.yolka.app.ui.adapters.NotificationItemAdapter;
@@ -128,6 +129,7 @@ public class NotificationsActivity extends AppCompatActivity {
 
         // Dispara notificación en barra de estado inmediatamente
         LocalReminderScheduler.triggerImmediateNotification(this, title, body);
+        Store.getInstance().addReceivedNotification(new ReceivedNotification(title, body, "VACCINE", petName));
 
         User currentUser = UserManager.getInstance().getCurrentUser();
         CreateNotificationRequest req = new CreateNotificationRequest();

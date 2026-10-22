@@ -14,7 +14,9 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.yolka.app.R;
 import com.yolka.app.YolkaApplication;
+import com.yolka.app.models.ReceivedNotification;
 import com.yolka.app.ui.dashboard.MainActivity;
+import com.yolka.app.utils.Store;
 
 /**
  * Receptor de alarmas locales (AlarmManager) para recordatorios programados de vacunas,
@@ -45,6 +47,8 @@ public class ReminderAlarmReceiver extends BroadcastReceiver {
         if (body == null || body.isBlank()) {
             body = "Es hora de cuidar a tu mascota.";
         }
+
+        Store.getInstance().addReceivedNotification(new ReceivedNotification(title, body, "REMINDER", ""));
 
         Intent openIntent = new Intent(context, MainActivity.class);
         openIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
