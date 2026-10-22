@@ -118,7 +118,7 @@ public class PetFormActivity extends AppCompatActivity {
             selectedPhotoUriOrUrl = pet.getPhotoUrl();
             Glide.with(this)
                     .load(pet.getPhotoUrl())
-                    .placeholder(R.drawable.ic_yolka_paw)
+                    .placeholder(R.drawable.ic_camera_add)
                     .circleCrop()
                     .into(binding.ivPetFormPreview);
         }

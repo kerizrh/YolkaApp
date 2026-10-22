@@ -48,20 +48,6 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Información básica y características de tu nuevo compañero"
-            android:textColor="@color/yolka_text_secondary"
-            android:textSize="13sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/yolka_primary_deep" />
-
         <!-- Subir foto de tu mascota -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardPetPhotoPicker"
@@ -103,23 +89,22 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:contentDescription="Foto mascota"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/ic_yolka_paw" />
+                            android:scaleType="centerInside"
+                            android:src="@drawable/ic_camera_add" />
                     </com.google.android.material.card.MaterialCardView>
 
                     <FrameLayout
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="bottom|end"
-                        android:background="@drawable/bg_yolka_logo_badge">
+                        android:background="@drawable/bg_circle_badge_purple">
 
                         <ImageView
                             android:layout_width="16dp"
                             android:layout_height="16dp"
                             android:layout_gravity="center"
-                            android:contentDescription="Agregar foto"
-                            android:src="@drawable/ic_add"
-                            app:tint="#FFFFFF" />
+                            android:contentDescription="Cámara"
+                            android:src="@drawable/ic_camera" />
                     </FrameLayout>
                 </FrameLayout>
 
@@ -127,16 +112,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Toca para seleccionar foto"
+                    android:text="Subir foto de tu mascota"
                     android:textColor="@color/yolka_primary_deep"
-                    android:textSize="14sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:text="Elige una foto desde la galería de tu dispositivo"
+                    android:text="Formatos JPG o PNG hasta 5MB"
                     android:textColor="@color/yolka_text_secondary"
                     android:textSize="12sp" />
 
