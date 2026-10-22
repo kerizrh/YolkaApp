@@ -55,6 +55,13 @@ public class AuthManager {
             return;
         }
 
+        if (!cachedUser.isConfirmed()) {
+            Store.getInstance().clearSession();
+            statusLiveData.postValue(AuthStatus.UNAUTHENTICATED);
+            if (callback != null) callback.onError("Debes confirmar tu correo electrónico", "ACCOUNT_NOT_CONFIRMED");
+            return;
+        }
+
         // Modo Parcialmente Offline: si no hay red pero hay sesión válida guardada, entrar al Dashboard
         if (!NetworkMonitor.getInstance().isOnline()) {
             UserManager.getInstance().setUser(cachedUser);
@@ -69,6 +76,12 @@ public class AuthManager {
                     @Override
                     public void onSuccess(GenericResponse result) {
                         User freshUser = result.user != null ? result.user : cachedUser;
+                        if (!freshUser.isConfirmed()) {
+                            Store.getInstance().clearSession();
+                            statusLiveData.postValue(AuthStatus.UNAUTHENTICATED);
+                            if (callback != null) callback.onError("Debes confirmar tu correo electrónico", "ACCOUNT_NOT_CONFIRMED");
+                            return;
+                        }
                         UserManager.getInstance().setUser(freshUser);
                         ThemeManager.getInstance().setDarkMode(
                                 freshUser.getPreferences().isDarkMode(),
@@ -146,7 +159,7 @@ public class AuthManager {
             Api.getInstance().enqueue(Api.getInstance().getService().register(req), new Api.ApiCallback<AuthResponse>() {
                 @Override
                 public void onSuccess(AuthResponse result) {
-                    if (result.token != null && !result.token.isBlank()) {
+                    if (result.user != null && result.user.isConfirmed() && result.token != null && !result.token.isBlank()) {
                         handleSuccessfulAuth(result);
                     }
                     if (callback != null) callback.onSuccess(result);

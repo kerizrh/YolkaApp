@@ -65,15 +65,8 @@ public class SignUpActivity extends AppCompatActivity {
                 String msg = result.message != null ? result.message : "Registro exitoso. Confirma tu cuenta con el código enviado a tu correo.";
                 Toast.makeText(SignUpActivity.this, msg, Toast.LENGTH_LONG).show();
 
-                if (result.token != null && !result.token.isBlank()) {
-                    Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    ConfirmAccountActivity.start(SignUpActivity.this, email, password);
-                    finish();
-                }
+                ConfirmAccountActivity.start(SignUpActivity.this, email, password);
+                finish();
             }
 
             @Override

@@ -41,6 +41,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        com.yolka.app.models.User currentUser = UserManager.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            currentUser = Store.getInstance().getUser();
+        }
+        if (currentUser != null && !currentUser.isConfirmed()) {
+            com.yolka.app.ui.auth.ConfirmAccountActivity.start(this, currentUser.getEmail(), null);
+            finish();
+            return;
+        }
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
