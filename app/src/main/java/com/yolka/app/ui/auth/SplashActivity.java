@@ -28,6 +28,11 @@ public class SplashActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(User result) {
                     if (isFinishing()) return;
+                    if (result != null && !result.isConfirmed()) {
+                        ConfirmAccountActivity.start(SplashActivity.this, result.getEmail(), null);
+                        finish();
+                        return;
+                    }
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
                     finish();
                 }

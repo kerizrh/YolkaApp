@@ -71,7 +71,8 @@ public class SignUpActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 } else {
-                    promptCodeConfirmation(email, password);
+                    ConfirmAccountActivity.start(SignUpActivity.this, email, password);
+                    finish();
                 }
             }
 
@@ -81,60 +82,6 @@ public class SignUpActivity extends AppCompatActivity {
                 Toast.makeText(SignUpActivity.this, message, Toast.LENGTH_LONG).show();
             }
         });
-    }
-
-    private void promptCodeConfirmation(String email, String password) {
-        EditText etCode = new EditText(this);
-        etCode.setHint("Código de 6 dígitos");
-        etCode.setInputType(InputType.TYPE_CLASS_NUMBER);
-        int pad = (int) (20 * getResources().getDisplayMetrics().density);
-        etCode.setPadding(pad, pad, pad, pad);
-
-        new AlertDialog.Builder(this)
-                .setTitle("Confirma tu correo")
-                .setMessage("Hemos enviado un enlace y un código de 6 dígitos a " + email + ". Ingresa el código aquí para activar tu cuenta de inmediato:")
-                .setView(etCode)
-                .setCancelable(false)
-                .setPositiveButton("Confirmar y Entrar", (d, w) -> {
-                    String code = etCode.getText().toString().trim();
-                    if (code.isEmpty()) {
-                        finish();
-                        return;
-                    }
-                    setLoading(true);
-                    Api.getInstance().enqueue(
-                            Api.getInstance().getService().confirmAccount(new ConfirmAccountRequest(code)),
-                            new Api.ApiCallback<GenericResponse>() {
-                                @Override
-                                public void onSuccess(GenericResponse confirmResp) {
-                                    AuthManager.getInstance().login(email, password, new Api.ApiCallback<AuthResponse>() {
-                                        @Override
-                                        public void onSuccess(AuthResponse loginResp) {
-                                            setLoading(false);
-                                            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                            startActivity(intent);
-                                            finish();
-                                        }
-
-                                        @Override
-                                        public void onError(String message, String errorCode) {
-                                            setLoading(false);
-                                            finish();
-                                        }
-                                    });
-                                }
-
-                                @Override
-                                public void onError(String message, String errorCode) {
-                                    setLoading(false);
-                                    Toast.makeText(SignUpActivity.this, message, Toast.LENGTH_LONG).show();
-                                }
-                            }
-                    );
-                })
-                .setNegativeButton("Confirmaré desde mi correo", (d, w) -> finish())
-                .show();
     }
 
     private void setLoading(boolean loading) {

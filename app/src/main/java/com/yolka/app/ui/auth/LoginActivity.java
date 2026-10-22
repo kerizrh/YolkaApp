@@ -72,8 +72,10 @@ public class LoginActivity extends AppCompatActivity {
         binding.btnGoogleSignIn.setOnClickListener(v -> googleLauncher.launch(googleSignInHelper.getSignInIntent()));
         binding.tvGoToSignUp.setOnClickListener(v -> startActivity(new Intent(this, SignUpActivity.class)));
         binding.tvForgotPassword.setOnClickListener(v -> startActivity(new Intent(this, ForgotPasswordActivity.class)));
-        binding.tvConfirmPendingAccount.setOnClickListener(v -> showConfirmAccountDialog(
-                binding.etLoginEmail.getText().toString().trim()
+        binding.tvConfirmPendingAccount.setOnClickListener(v -> ConfirmAccountActivity.start(
+                this,
+                binding.etLoginEmail.getText().toString().trim(),
+                binding.etLoginPassword.getText().toString()
         ));
     }
 
@@ -103,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                 setLoading(false);
                 Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
                 if ("ACCOUNT_NOT_CONFIRMED".equals(errorCode)) {
-                    showConfirmAccountDialog(email);
+                    ConfirmAccountActivity.start(LoginActivity.this, email, password);
                 }
             }
         });
@@ -129,71 +131,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void showConfirmAccountDialog(String prefilledEmail) {
-        LinearLayout container = new LinearLayout(this);
-        container.setOrientation(LinearLayout.VERTICAL);
-        int pad = (int) (20 * getResources().getDisplayMetrics().density);
-        container.setPadding(pad, pad / 2, pad, 0);
-
-        EditText etCode = new EditText(this);
-        etCode.setHint("Código de 6 dígitos (ej. 123456)");
-        etCode.setInputType(InputType.TYPE_CLASS_TEXT);
-        container.addView(etCode);
-
-        EditText etEmail = new EditText(this);
-        etEmail.setHint("Correo electrónico (para reenviar)");
-        etEmail.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-        if (prefilledEmail != null && !prefilledEmail.isBlank()) {
-            etEmail.setText(prefilledEmail);
-        }
-        container.addView(etEmail);
-
-        new AlertDialog.Builder(this)
-                .setTitle("Confirmar cuenta Yolka")
-                .setMessage("Ingresa el código de 6 dígitos enviado a tu correo o haz clic en el enlace del correo.")
-                .setView(container)
-                .setPositiveButton("Confirmar código", (d, w) -> {
-                    String code = etCode.getText().toString().trim();
-                    if (code.isEmpty()) return;
-                    Api.getInstance().enqueue(
-                            Api.getInstance().getService().confirmAccount(new ConfirmAccountRequest(code)),
-                            new Api.ApiCallback<GenericResponse>() {
-                                @Override
-                                public void onSuccess(GenericResponse result) {
-                                    Toast.makeText(LoginActivity.this,
-                                            result.message != null ? result.message : "¡Cuenta confirmada! Ahora puedes iniciar sesión.",
-                                            Toast.LENGTH_LONG).show();
-                                }
-
-                                @Override
-                                public void onError(String message, String errorCode) {
-                                    Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
-                                }
-                            }
-                    );
-                })
-                .setNeutralButton("Reenviar correo", (d, w) -> {
-                    String email = etEmail.getText().toString().trim();
-                    if (email.isEmpty()) {
-                        Toast.makeText(LoginActivity.this, "Ingresa tu correo para reenviar el código", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    Api.getInstance().enqueue(
-                            Api.getInstance().getService().requestConfirmation(new EmailRequest(email)),
-                            new Api.ApiCallback<GenericResponse>() {
-                                @Override
-                                public void onSuccess(GenericResponse result) {
-                                    Toast.makeText(LoginActivity.this, "Correo de confirmación enviado", Toast.LENGTH_LONG).show();
-                                }
-
-                                @Override
-                                public void onError(String message, String errorCode) {
-                                    Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
-                                }
-                            }
-                    );
-                })
-                .setNegativeButton("Cancelar", null)
-                .show();
+        ConfirmAccountActivity.start(this, prefilledEmail, null);
     }
 
     private void setLoading(boolean loading) {
