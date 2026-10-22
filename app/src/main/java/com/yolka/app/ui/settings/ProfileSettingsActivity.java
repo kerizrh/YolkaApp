@@ -100,7 +100,6 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         binding.cardProfileAvatar.setOnClickListener(pickPhotoListener);
         binding.btnChangePhotoBadge.setOnClickListener(pickPhotoListener);
         binding.ivProfileAvatar.setOnClickListener(pickPhotoListener);
-        binding.btnPickPhotoFromGallery.setOnClickListener(pickPhotoListener);
 
         binding.btnSaveProfile.setOnClickListener(v -> saveProfileChanges());
 

@@ -202,22 +202,6 @@
                         android:textSize="14sp" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnPickPhotoFromGallery"
-                        style="@style/Widget.Material3.Button.TonalButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:layout_marginTop="10dp"
-                        android:text="📷  Elegir foto de la galería"
-                        android:textAllCaps="false"
-                        android:textColor="@color/yolka_primary_deep"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        app:backgroundTint="@color/yolka_surface_variant"
-                        app:cornerRadius="12dp"
-                        app:strokeColor="@color/yolka_card_stroke"
-                        app:strokeWidth="1dp" />
-
-                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnSaveProfile"
                         android:layout_width="match_parent"
                         android:layout_height="46dp"
