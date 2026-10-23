@@ -18,7 +18,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Api Singleton (inspirado en Utils/api.tsx de Kafoo):
+ * Api Singleton:
  * - Inyecta en cada petición los headers:
  *   x-token: JWT leído desde Store.getUserToken()
  *   x-client-type: mobile

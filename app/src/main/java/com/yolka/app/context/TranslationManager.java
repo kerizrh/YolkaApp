@@ -11,7 +11,7 @@ import com.yolka.app.utils.Store;
 import java.util.Locale;
 
 /**
- * TranslationManager (inspirado en TranslationsContext de Kafoo):
+ * TranslationManager:
  * Administra el idioma ("es" o "en") y la zona horaria del usuario.
  */
 public class TranslationManager {

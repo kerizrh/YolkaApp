@@ -29,7 +29,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * Store Singleton (inspirado en store.tsx de Kafoo):
+ * Store Singleton:
  * - Almacena credenciales, tokens y usuario cifrado con EncryptedSharedPreferences + AES.
  * - Mantiene caché JSON cifrada de Mascotas, Veterinarias, Consejos y Notificaciones para operación parcialmente offline.
  * - Persiste la cola FIFO de sincronización (SyncQueueItem) para despachar cambios al restablecer la conexión.

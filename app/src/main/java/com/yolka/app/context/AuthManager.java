@@ -12,7 +12,7 @@ import com.yolka.app.utils.Store;
 import com.yolka.app.utils.SyncQueueManager;
 
 /**
- * AuthManager (inspirado en AuthContext de Kafoo):
+ * AuthManager:
  * Controla el estado de sesión (CHECKING, AUTHENTICATED, UNAUTHENTICATED),
  * login por correo y Google, registro, confirmación, recuperación y cierre de sesión.
  */

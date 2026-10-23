@@ -12,7 +12,7 @@ import com.yolka.app.utils.Store;
 import com.yolka.app.utils.SyncQueueManager;
 
 /**
- * UserManager (inspirado en UserContext de Kafoo):
+ * UserManager:
  * Mantiene en memoria y sincroniza el perfil del usuario autenticado y sus preferencias.
  */
 public class UserManager {

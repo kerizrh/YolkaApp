@@ -10,7 +10,7 @@ import com.yolka.app.utils.Store;
 import java.time.Instant;
 
 /**
- * BackupClientService (inspirado en BackupService.ts de Kafoo):
+ * BackupClientService:
  * Orquesta la creación y restauración de copias de seguridad cifradas (.v2.ylk AES-256-GCM)
  * almacenadas en el servidor a través de BackupsController.
  */
